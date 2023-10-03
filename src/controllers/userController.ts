@@ -82,11 +82,11 @@ export const loginUser = async (req: Request, res: Response) => {
     let accessToken;
     if (process.env.API_SECRET) {
       accessToken = jwt.sign(
-        { username: user.username },
+        { id: user._id, name: user.username, email: user.email },
         process.env.API_SECRET
       );
     } else {
-      throw new Error("API_SECRET environment variable is not defined");
+      throw new Error("API_SECRET is not defined");
     }
     res.json({ accessToken });
   } catch (error) {
