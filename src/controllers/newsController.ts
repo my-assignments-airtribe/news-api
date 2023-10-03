@@ -21,6 +21,7 @@ export const getNewsArticles = async (req: CustomRequest, res: Response) => {
       // using newsapi.org
       // cannot club categories and sources together
       // category is a query param and is a string
+      // sources is a query param and is comma separated string
       // for each category in categories, make a request to newsapi.org
       // console.log(await axios.get(`https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&category=${categories[0]}`))
       const articles = await Promise.all(categories.map(async (category: string) => {
