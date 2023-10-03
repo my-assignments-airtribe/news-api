@@ -52,3 +52,45 @@ export const registerUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// User Login
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    // Validate request body against the login schema
+    const { error } = loginSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const { username, password } = req.body;
+
+    // Find the user by their username
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Check if the provided password matches the stored hash
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate and send an access token as a response
+    let accessToken;
+    if (process.env.API_SECRET) {
+      accessToken = jwt.sign(
+        { username: user.username },
+        process.env.API_SECRET
+      );
+    } else {
+      throw new Error("API_SECRET environment variable is not defined");
+    }
+    res.json({ accessToken });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
