@@ -5,6 +5,7 @@
   "author": "Ashrith Prakash",
   "license": "MIT",
   "dependencies": {
+    "@types/express": "^4.17.18",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
