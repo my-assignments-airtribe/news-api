@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-interface CustomRequest extends Request {
+export interface CustomRequest extends Request {
   userId?: any;
 }
 
 export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
-  const token = req.header('Authorization')?.split(' ')[1];
+  const token = req.headers.authorization;
+  // console.log(req.headers.authorization)
   // Unauthorized
   if (!token) {
     return res.status(401).json({

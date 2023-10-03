@@ -43,6 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
       email,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      preferences: []
     });
 
     await newUser.save();
@@ -82,8 +83,10 @@ export const loginUser = async (req: Request, res: Response) => {
     let accessToken;
     if (process.env.API_SECRET) {
       accessToken = jwt.sign(
-        { id: user._id, name: user.username, email: user.email },
-        process.env.API_SECRET
+        { id: user._id, name: user.username, email: user.email, preferences: user.preferences },
+        process.env.API_SECRET,{
+          expiresIn: "1d"
+        }
       );
     } else {
       throw new Error("API_SECRET is not defined");

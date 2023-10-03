@@ -4,6 +4,10 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  preferences: {
+    categories: string[];
+    sources: string[];
+  }
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,6 +19,10 @@ const userSchema: Schema = new Schema({
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: Date,
+  preferences: {
+    categories: [String],
+    sources: [String]
+  }
 });
 
 // Create and export the User model
