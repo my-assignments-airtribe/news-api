@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/authService';
+import { IUser } from '../models/User';
 
 export interface CustomRequest extends Request {
-  userId?: any;
+  userId?: string;
 }
 
 export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -21,6 +22,6 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
   if (!decodedToken) {
     return res.sendStatus(403); // Forbidden
   }
-  req.userId = decodedToken.user.id;
+  req.userId = decodedToken.user._id;
   next();
 };

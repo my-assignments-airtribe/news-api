@@ -5,6 +5,7 @@ import mongoConfig from "./config/database";
 import dotenv from 'dotenv';
 
 import userRoutes from "./routes/userRoutes";
+import newsRoutes from "./routes/newsRoutes";
 
 dotenv.config();
 
@@ -32,5 +33,6 @@ app.get("/", (req, res) => {
 });
 
 app.use('/user', userRoutes);
+app.use('/news', newsRoutes);
 
 
