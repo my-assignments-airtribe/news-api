@@ -2,6 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import mongoConfig from "./config/database";
+import dotenv from 'dotenv';
+
+import userRoutes from "./routes/userRoutes";
+
+dotenv.config();
 
 
 const app = express();
@@ -25,5 +30,7 @@ app.get("/", (req, res) => {
     message: "This is the News API"
   });
 });
+
+app.use('/user', userRoutes);
 
 
