@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { verifyToken } from '../services/authService';
 
 export interface CustomRequest extends Request {
