@@ -1,20 +1,8 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Joi from "joi";
 import UserModel from "../models/User";
-
-// schemas for input validation
-const registrationSchema = Joi.object({
-  username: Joi.string().min(3).required(),
-  password: Joi.string().min(6).required(),
-  email: Joi.string().email().required()
-});
-
-const loginSchema = Joi.object({
-  username: Joi.string().required(),
-  password: Joi.string().required(),
-});
+import { loginSchema, registrationSchema } from "../validation/userValidation";
 
 // User Registration
 export const registerUser = async (req: Request, res: Response) => {
@@ -91,7 +79,7 @@ export const loginUser = async (req: Request, res: Response) => {
     } else {
       throw new Error("API_SECRET is not defined");
     }
-    res.json({ accessToken });
+    res.status(200).json({ accessToken });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

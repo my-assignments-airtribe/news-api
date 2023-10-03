@@ -26,6 +26,6 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
     // Attach the user object to the request for use in route handlers
     req.userId = (decoded as JwtPayload).id;
 
-    next(); // Continue to the next middleware or route handler
+    next();
   });
 };

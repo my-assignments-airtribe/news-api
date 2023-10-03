@@ -29,7 +29,7 @@ export const setUserPreferences = async (req: CustomRequest, res: Response) => {
     // Save the updated user preferences
     await existingUser.save();
 
-    return res.status(200).json({ message: "Preferences updated successfully" });
+    return res.status(201).json({ message: "Preferences updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
