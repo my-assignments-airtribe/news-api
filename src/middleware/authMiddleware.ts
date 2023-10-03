@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '../services/authService';
 
 export interface CustomRequest extends Request {
   userId?: any;
@@ -15,17 +16,12 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
     });
   }
 
-  jwt.verify(token, process.env.API_SECRET as string, (err, decoded) => {
-    if (err) {
-      // Forbidden
-      return res.status(403).json({
-        message: "Forbidden"
-      });
-    }
+  // Validate the token
+  const decodedToken = verifyToken(token);
 
-    // Attach the user object to the request for use in route handlers
-    req.userId = (decoded as JwtPayload).id;
-
-    next();
-  });
+  if (!decodedToken) {
+    return res.sendStatus(403); // Forbidden
+  }
+  req.userId = decodedToken.user.id;
+  next();
 };

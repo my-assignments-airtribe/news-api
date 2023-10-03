@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/User";
 import { loginSchema, registrationSchema } from "../validation/userValidation";
+import { generateToken } from "../services/authService";
 
 // User Registration
 export const registerUser = async (req: Request, res: Response) => {
@@ -31,7 +32,10 @@ export const registerUser = async (req: Request, res: Response) => {
       email,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      preferences: []
+      preferences: {
+        categories: [],
+        sources: []
+      }
     });
 
     await newUser.save();
@@ -68,17 +72,8 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     // Generate and send an access token as a response
-    let accessToken;
-    if (process.env.API_SECRET) {
-      accessToken = jwt.sign(
-        { id: user._id, name: user.username, email: user.email, preferences: user.preferences },
-        process.env.API_SECRET,{
-          expiresIn: "1d"
-        }
-      );
-    } else {
-      throw new Error("API_SECRET is not defined");
-    }
+    const accessToken = generateToken(user);
+
     res.status(200).json({ accessToken });
   } catch (error) {
     console.error(error);
