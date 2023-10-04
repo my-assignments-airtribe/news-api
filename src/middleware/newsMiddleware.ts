@@ -78,6 +78,9 @@ export const removeFavoriteMiddleware = async (req: CustomRequest, res: Response
     if (!existingArticle) {
       return res.status(400).json({ message: "Article not found in favorite" });
     }
+    if(existingArticle.favoriteArticles.length === 0) {
+      return res.status(400).json({ message: "Article not found in favorite" });
+    }
     if (!favoriteArticle) {
       return res.status(400).json({ message: "favoriteArticle must be provided" });
     }
