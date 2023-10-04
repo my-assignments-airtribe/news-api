@@ -26,7 +26,7 @@ export const getNewsArticles = async (req: CustomRequest, res: Response) => {
       // console.log(await axios.get(`https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&category=${categories[0]}`))
       const articles = await Promise.all(categories.map(async (category: string) => {
         // cannot club categories and sources together in this api
-        const response = await axios.get(`https://newsapi.org/v2/top-headlines`, {
+        const response = await axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
           params: {
             apiKey,
             category,

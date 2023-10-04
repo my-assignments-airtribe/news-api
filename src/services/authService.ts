@@ -5,7 +5,7 @@ import { IUser } from '../models/User';
 dotenv.config();
 
 // Secret key for JWT token generation
-const secretKey = process.env.API_SECRET as string;
+const secretKey = process.env.JWT_SECRET as string;
 
 export function generateToken(user: IUser): string {
   const token = jwt.sign({ user }, secretKey, { expiresIn: '1d' });
