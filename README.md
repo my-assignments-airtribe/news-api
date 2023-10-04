@@ -164,14 +164,14 @@ $ sudo systemctl status mongod
 - **Description**: Get news articles marked as "favorite" by the user
 
 ### Mark as Read
-- **Endpoint**: `/news/:articleId/read`
+- **Endpoint**: `/news/read`
 - **Method**: `POST`
 - **Description**: Mark a news article as "read"
 - **Request Parameters**:
   - `articleId`: ID of the news article
 
 ### Mark as Favorite
-- **Endpoint**: `/news/:articleId/favorite`
+- **Endpoint**: `/news/favorite`
 - **Method**: `POST`
 - **Description**: Mark a news article as "favorite"
 - **Request Parameters**:

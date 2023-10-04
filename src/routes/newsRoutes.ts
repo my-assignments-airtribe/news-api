@@ -1,42 +1,38 @@
-import express from 'express';
-import { authenticateJWT } from '../middleware/authMiddleware';
-import { getNewsArticles } from '../controllers/newsController';
+import express from "express";
+import { authenticateJWT } from "../middleware/authMiddleware";
+import {
+  getFavoriteArticles,
+  getNewsArticles,
+  getReadArticles,
+  removeFavoriteArticle,
+  searchNewsArticles,
+  setFavoriteArticles,
+  setReadArticles,
+} from "../controllers/newsController";
+import {
+  removeFavoriteMiddleware,
+  searchMiddleware,
+  setFavoriteMiddleware,
+  setReadArticleMiddleware,
+} from "../middleware/newsMiddleware";
 
 const router = express.Router();
 
 // News Articles Route
 
-router.get('/articles', authenticateJWT, getNewsArticles);
+router.get("/articles", authenticateJWT, getNewsArticles);
 
-router.post(":id/read", (req, res) => {
-  // get the id of the article
-  // need to update the user model to store read article ids
-  // post the id to the user's read articles
-  // return the updated user model
-})
+router.post("/read", setReadArticleMiddleware, setReadArticles);
 
-router.get("/read", (req, res) => {
-  // get the user's read articles
-  // return the user's read articles
-});
+router.get("/read", getReadArticles);
 
-router.post(":id/favorite", (req, res) => {
-  // get the id of the article
-  // need to update the user model to store favorite article ids
-  // post the id to the user's favorite articles
-  // return the updated user model
-})
+router.post("/favorite", setFavoriteMiddleware, setFavoriteArticles);
 
-router.get("/favorites", (req, res) => {
-  // get the user's favorite articles
-  // return the user's favorite articles
-});
+router.get("/favorites", getFavoriteArticles);
 
-router.get('/search/:keyword', (req, res) => {
-  // get the keyword from the params
-  // search the news api for the keyword
-  // return the articles
-})
+router.delete("/favorite", removeFavoriteMiddleware, removeFavoriteArticle);
+
+router.get("/search/:keyword", searchMiddleware, searchNewsArticles);
 
 // Figure out how to cache the news articles and upate articles in the backround
 

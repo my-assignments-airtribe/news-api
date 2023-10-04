@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/authService';
-import { IUser } from '../models/User';
 
 export interface CustomRequest extends Request {
   userId?: string;

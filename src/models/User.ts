@@ -10,6 +10,14 @@ export interface IUser extends Document {
   }
   createdAt: Date;
   updatedAt: Date;
+  readArticles: {
+    articleUrl: string;
+    readAt: Date;
+  }[];
+  favoriteArticles: {
+    articleUrl: string;
+    favoritedAt: Date;
+  }[];
 }
 
 // Define the User schema
@@ -22,7 +30,15 @@ const userSchema: Schema = new Schema({
   preferences: {
     categories: [String],
     sources: [String]
-  }
+  },
+  readArticles: [{
+    articleUrl: { type: String},
+    readAt: { type: Date, default: Date.now}
+  }],
+  favoriteArticles: [{
+    articleUrl: { type: String},
+    readAt: { type: Date, default: Date.now}
+  }]
 });
 
 // Create and export the User model
