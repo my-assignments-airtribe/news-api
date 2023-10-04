@@ -68,8 +68,8 @@ export const getReadArticles = async (req: CustomRequest, res: Response) => {
     }
     const readArticles = existingUser.readArticles.map((article) => {
       return {
-        ...article,
         articleUrl: decodeURIComponent(article.articleUrl),
+        readAt: article.readAt,
       };
     });
     return res.status(200).json({ readArticles });
@@ -111,8 +111,8 @@ export const getFavoriteArticles = async (req: CustomRequest, res: Response) => 
     }
     const favoriteArticles = existingUser.favoriteArticles.map((article) => {
       return {
-        ...article,
         articleUrl: decodeURIComponent(article.articleUrl),
+        favoritedAt: article.favoritedAt,
       };
     });
     return res.status(200).json({ favoriteArticles });
@@ -149,12 +149,13 @@ export const removeFavoriteArticle = async (req: CustomRequest, res: Response) =
   try {
     const { userId, body } = req;
     let existingUser = await UserModel.findById(userId);
+    
 
     if (!existingUser) {
       return res.status(400).json({ message: "User does not exist" });
     }
     let { favoriteArticle } = body;
-    existingUser.favoriteArticles = existingUser.favoriteArticles.filter((article) => article.articleUrl !== favoriteArticle.url);
+    existingUser.favoriteArticles = existingUser.favoriteArticles.filter((article) => article.articleUrl !== favoriteArticle.articleUrl);
     await existingUser.save();
     return res
       .status(200)

@@ -22,17 +22,17 @@ const router = express.Router();
 
 router.get("/articles", authenticateJWT, getNewsArticles);
 
-router.post("/read", setReadArticleMiddleware, setReadArticles);
+router.post("/read", authenticateJWT, setReadArticleMiddleware, setReadArticles);
 
-router.get("/read", getReadArticles);
+router.get("/read", authenticateJWT, getReadArticles);
 
-router.post("/favorite", setFavoriteMiddleware, setFavoriteArticles);
+router.post("/favorite", authenticateJWT, setFavoriteMiddleware, setFavoriteArticles);
 
-router.get("/favorites", getFavoriteArticles);
+router.get("/favorites", authenticateJWT, getFavoriteArticles);
 
-router.delete("/favorite", removeFavoriteMiddleware, removeFavoriteArticle);
+router.delete("/favorite", authenticateJWT, removeFavoriteMiddleware, removeFavoriteArticle);
 
-router.get("/search/:keyword", searchMiddleware, searchNewsArticles);
+router.get("/search/:keyword", authenticateJWT, searchMiddleware, searchNewsArticles);
 
 // Figure out how to cache the news articles and upate articles in the backround
 

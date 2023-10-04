@@ -1,66 +1,101 @@
 import { Request, Response, NextFunction } from 'express';
+import  UserModel  from '../models/User';
+import { CustomRequest } from './authMiddleware';
 
-export const setReadArticleMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  let { readArticle }: { 
-    readArticle: {
-      articleUrl: string;
+export const setReadArticleMiddleware = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    let { readArticle }: { 
+      readArticle: {
+        articleUrl: string;
+      }
+    } = req.body;
+    const userId = req.userId;
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(readArticle.articleUrl) } } });
+    if (existingArticle) {
+      return res.status(400).json({ message: "Article already read" });
     }
-  } = req.body;
-  if (!readArticle) {
-    return res.status(400).json({ message: "readArticle must be provided" });
+    if (!readArticle) {
+      return res.status(400).json({ message: "readArticle must be provided" });
+    }
+    if (!readArticle.articleUrl) {
+      return res.status(400).json({ message: "articleUrl must be provided" });
+    }
+    if(!readArticle.articleUrl.startsWith("http") && !readArticle.articleUrl.startsWith("https")) {
+      return res.status(400).json({ message: "articleUrl must be a valid url" });
+    }
+    if (readArticle.articleUrl) {
+      req.body.readArticle.articleUrl = encodeURIComponent(readArticle.articleUrl.trim());
+    }
+    next();
   }
-  if (!readArticle.articleUrl) {
-    return res.status(400).json({ message: "articleUrl must be provided" });
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
-  if(!readArticle.articleUrl.startsWith("http") || !readArticle.articleUrl.startsWith("https")) {
-    return res.status(400).json({ message: "articleUrl must be a valid url" });
-  }
-  if (readArticle.articleUrl) {
-    req.body.readArticle.articleUrl = encodeURIComponent(readArticle.articleUrl.trim());
-  }
-  next();
 }
 
-export const setFavoriteMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const { favoriteArticle }: { 
-    favoriteArticle: {
-      articleUrl: string;
+export const setFavoriteMiddleware = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    const { favoriteArticle }: { 
+      favoriteArticle: {
+        articleUrl: string;
+      }
+    } = req.body;
+    const userId = req.userId;
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(favoriteArticle.articleUrl) } } });
+    if (existingArticle) {
+      return res.status(400).json({ message: "Article already added to Favorites" });
     }
-  } = req.body;
-  if (!favoriteArticle) {
-    return res.status(400).json({ message: "favoriteArticle must be provided" });
+    if (!favoriteArticle) {
+      return res.status(400).json({ message: "favoriteArticle must be provided" });
+    }
+    if (!favoriteArticle.articleUrl) {
+      return res.status(400).json({ message: "articleUrl must be provided" });
+    }
+    if(!favoriteArticle.articleUrl.startsWith("http") && !favoriteArticle.articleUrl.startsWith("https")) {
+      return res.status(400).json({ message: "articleUrl must be a valid url" });
+    }
+    if (favoriteArticle.articleUrl) {
+      req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+    }
+    next();
   }
-  if (!favoriteArticle.articleUrl) {
-    return res.status(400).json({ message: "articleUrl must be provided" });
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
-  if(!favoriteArticle.articleUrl.startsWith("http") || !favoriteArticle.articleUrl.startsWith("https")) {
-    return res.status(400).json({ message: "articleUrl must be a valid url" });
-  }
-  if (favoriteArticle.articleUrl) {
-    req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
-  }
-  next();
 }
 
-export const removeFavoriteMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const { favoriteArticle }: { 
-    favoriteArticle: {
-      articleUrl: string;
+export const removeFavoriteMiddleware = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    const { favoriteArticle }: { 
+      favoriteArticle: {
+        articleUrl: string;
+      }
+    } = req.body;
+    const userId = req.userId;
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(favoriteArticle.articleUrl) } } });
+    if (!existingArticle) {
+      return res.status(400).json({ message: "Article not found in favorite" });
     }
-  } = req.body;
-  if (!favoriteArticle) {
-    return res.status(400).json({ message: "favoriteArticle must be provided" });
+    if (!favoriteArticle) {
+      return res.status(400).json({ message: "favoriteArticle must be provided" });
+    }
+    if (!favoriteArticle.articleUrl) {
+      return res.status(400).json({ message: "articleUrl must be provided" });
+    }
+    if(!favoriteArticle.articleUrl.startsWith("http") && !favoriteArticle.articleUrl.startsWith("https")) {
+      return res.status(400).json({ message: "articleUrl must be a valid url" });
+    }
+    if (favoriteArticle.articleUrl) {
+      req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+    }
+    next();
   }
-  if (!favoriteArticle.articleUrl) {
-    return res.status(400).json({ message: "articleUrl must be provided" });
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
-  if(!favoriteArticle.articleUrl.startsWith("http") || !favoriteArticle.articleUrl.startsWith("https")) {
-    return res.status(400).json({ message: "articleUrl must be a valid url" });
-  }
-  if (favoriteArticle.articleUrl) {
-    req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
-  }
-  next();
 }
 
 export const searchMiddleware = (req: Request, res: Response, next: NextFunction) => {

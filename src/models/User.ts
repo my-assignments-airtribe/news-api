@@ -37,7 +37,7 @@ const userSchema: Schema = new Schema({
   }],
   favoriteArticles: [{
     articleUrl: { type: String},
-    readAt: { type: Date, default: Date.now}
+    favoritedAt: { type: Date, default: Date.now}
   }]
 });
 
