@@ -2,7 +2,7 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 
 // MongoDB connection URL
-const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/news_api';
+const mongoURI = process.env.MONGODB_URI as string;
 
 // MongoDB options (optional)
 const mongoOptions = {
