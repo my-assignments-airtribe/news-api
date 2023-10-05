@@ -64,7 +64,7 @@ $ sudo systemctl status mongod
 
 - **MongoDB Compass**: This project uses MongoDB Compass to visualize the database. You can download and install MongoDB Compass from [mongodb.com](https://www.mongodb.com/).
 
-- **Docker** (Optional): This project uses docker to run the server. You should have docker installed on your machine. You can download and install docker from [docker.com](https://www.docker.com/).
+- **Docker**: This project uses docker to run the server. You should have docker installed on your machine. You can download and install docker from [docker.com](https://www.docker.com/).
 
 
 - **News API Key**: To fetch news articles from external sources, you'll need an API key from a news API provider, such as [News API](https://newsapi.org/). Sign up and obtain an API key to use in the project.
