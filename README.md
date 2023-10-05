@@ -60,12 +60,14 @@ brew install mongodb-community
 $ sudo systemctl status mongod
 
 ```
+- **Docker** (Optional): This project uses docker to run the server. You should have docker installed on your machine. You can download and install docker from [docker.com](https://www.docker.com/).
+
 
 - **API Key**: To fetch news articles from external sources, you'll need an API key from a news API provider, such as [News API](https://newsapi.org/). Sign up and obtain an API key to use in the project.
 
 - **Environment Variables**: Create a `.env` file in the root directory of the project and add the following environment variables:
 
-  - `MONGO_URI`: MongoDB connection URI
+  - `MONGODB_URI`: MongoDB connection URI
   - `JWT_SECRET`: Secret key for JWT authentication
   - `NEWS_API_KEY`: API key for fetching news articles
   - `NEWS_API_URL`: URL for fetching news articles
@@ -74,31 +76,43 @@ $ sudo systemctl status mongod
 1. Clone the repository or download the source code:
 
    ```bash
-   git clone https://github.com/my-assignments-airtribe/news-api.git
+   `git clone https://github.com/my-assignments-airtribe/news-api.git`
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd news-api
+   `cd news-api`
    ```
 3. Install dependencies:
 
    ```bash
-   yarn install
+   `yarn install`
    ```
     or
     ```bash
-    npm install
+    `npm install`
     ```
 4. Start the server:
 
    ```bash
-   yarn start
+   `yarn start`
    ```
     or
     ```bash
-    npm start
+    `npm start`
+    ```
+5. Using docker:
+    To start the server using docker, run the following commands:
+    ```bash
+      `docker-compose build`
+      `docker-compose up`
+    ```
+    The server will be running on port `http://localhost:3000`.
+
+    To Stop the server, run the following command:
+    ```bash
+      `docker-compose down`
     ```
 ## Usage
 
@@ -168,14 +182,14 @@ $ sudo systemctl status mongod
 - **Method**: `POST`
 - **Description**: Mark a news article as "read"
 - **Request Parameters**:
-  - `articleId`: ID of the news article
+  - `articleUrl`: Url of the news article
 
 ### Mark as Favorite
 - **Endpoint**: `/news/favorite`
 - **Method**: `POST`
 - **Description**: Mark a news article as "favorite"
 - **Request Parameters**:
-  - `articleId`: ID of the news article
+  - `articleUrl`: Url of the news article
 
 ### Search News
 - **Endpoint**: `/news/search/:keyword`
