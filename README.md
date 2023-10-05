@@ -42,6 +42,11 @@ Explore the README below to get started with installation, usage, and configurat
 
 Instructions for setting up your project locally.
 
+or
+
+Connect to the live API at [https://news-api-uyyo.onrender.com](https://news-api-uyyo.onrender.com)
+use this as the base url in postman to test the api
+
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
 
