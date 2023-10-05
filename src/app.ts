@@ -6,6 +6,10 @@ import dotenv from 'dotenv';
 
 import userRoutes from "./routes/userRoutes";
 import newsRoutes from "./routes/newsRoutes";
+import NodeCache from "node-cache";
+import cron from "node-cron";
+
+const cache = new NodeCache();
 
 dotenv.config();
 
