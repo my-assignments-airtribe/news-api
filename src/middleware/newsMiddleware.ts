@@ -10,7 +10,8 @@ export const setReadArticleMiddleware = async (req: CustomRequest, res: Response
       }
     } = req.body;
     const userId = req.userId;
-    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(readArticle.articleUrl) } } });
+    const encodedArticleUrl = encodeURIComponent(readArticle.articleUrl.trim());
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodedArticleUrl } } });
     if (existingArticle) {
       return res.status(400).json({ message: "Article already read" });
     }
@@ -24,7 +25,7 @@ export const setReadArticleMiddleware = async (req: CustomRequest, res: Response
       return res.status(400).json({ message: "articleUrl must be a valid url" });
     }
     if (readArticle.articleUrl) {
-      req.body.readArticle.articleUrl = encodeURIComponent(readArticle.articleUrl.trim());
+      req.body.readArticle.articleUrl = encodedArticleUrl;
     }
     next();
   }
@@ -42,7 +43,8 @@ export const setFavoriteMiddleware = async (req: CustomRequest, res: Response, n
       }
     } = req.body;
     const userId = req.userId;
-    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(favoriteArticle.articleUrl) } } });
+    const encodedArticleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodedArticleUrl } } });
     if (existingArticle) {
       return res.status(400).json({ message: "Article already added to Favorites" });
     }
@@ -56,7 +58,7 @@ export const setFavoriteMiddleware = async (req: CustomRequest, res: Response, n
       return res.status(400).json({ message: "articleUrl must be a valid url" });
     }
     if (favoriteArticle.articleUrl) {
-      req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+      req.body.favoriteArticle.articleUrl = encodedArticleUrl;
     }
     next();
   }
@@ -74,7 +76,8 @@ export const removeFavoriteMiddleware = async (req: CustomRequest, res: Response
       }
     } = req.body;
     const userId = req.userId;
-    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodeURIComponent(favoriteArticle.articleUrl) } } });
+    const encodedArticleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+    const existingArticle = await UserModel.findOne({ _id: userId, readArticles: { $elemMatch: { articleUrl: encodedArticleUrl } } });
     if (!existingArticle) {
       return res.status(400).json({ message: "Article not found in favorite" });
     }
@@ -91,7 +94,7 @@ export const removeFavoriteMiddleware = async (req: CustomRequest, res: Response
       return res.status(400).json({ message: "articleUrl must be a valid url" });
     }
     if (favoriteArticle.articleUrl) {
-      req.body.favoriteArticle.articleUrl = encodeURIComponent(favoriteArticle.articleUrl.trim());
+      req.body.favoriteArticle.articleUrl = encodedArticleUrl;
     }
     next();
   }
