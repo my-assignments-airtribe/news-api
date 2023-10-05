@@ -49,7 +49,7 @@ Before you begin, ensure you have met the following requirements:
 
 - **Package Manager**: yarn or npm
 
-- **MongoDB**: This project uses MongoDB as the database. You should have a running MongoDB instance or connection URI. You can download and install MongoDB from [mongodb.com](https://www.mongodb.com/).
+<!-- - **MongoDB**: This project uses MongoDB as the database. You should have a running MongoDB instance or connection URI. You can download and install MongoDB from [mongodb.com](https://www.mongodb.com/).
 
 ```bash
 # Install MongoDB on Ubuntu
@@ -59,18 +59,25 @@ brew install mongodb-community
 # Check if MongoDB is running
 $ sudo systemctl status mongod
 
-```
+``` -->
+- **MongoDB Atlas**: This project uses MongoDB Atlas to host the database. You can create a free account on [mongodb.com](https://www.mongodb.com/) and create a cluster to host the database.
+
+- **MongoDB Compass**: This project uses MongoDB Compass to visualize the database. You can download and install MongoDB Compass from [mongodb.com](https://www.mongodb.com/).
+
 - **Docker** (Optional): This project uses docker to run the server. You should have docker installed on your machine. You can download and install docker from [docker.com](https://www.docker.com/).
 
 
-- **API Key**: To fetch news articles from external sources, you'll need an API key from a news API provider, such as [News API](https://newsapi.org/). Sign up and obtain an API key to use in the project.
+- **News API Key**: To fetch news articles from external sources, you'll need an API key from a news API provider, such as [News API](https://newsapi.org/). Sign up and obtain an API key to use in the project.
 
 - **Environment Variables**: Create a `.env` file in the root directory of the project and add the following environment variables:
 
-  - `MONGODB_URI`: MongoDB connection URI
-  - `JWT_SECRET`: Secret key for JWT authentication
-  - `NEWS_API_KEY`: API key for fetching news articles
-  - `NEWS_API_URL`: URL for fetching news articles
+  - `JWT_SECRET` - Secret key for JWT authentication
+  - `NEWS_API_URL` - News API URL
+  - `NEWS_API_SECRET` - News API key
+  - `MONGODB_USERNAME` - MongoDB username
+  - `MONGODB_PASSWORD` - MongoDB password
+  - `MONGODB_CLUSTER_NAME` - MongoDB cluster name
+  - `MONGODB_URL`- MongoDB connection URI
 
 ### Installation
 1. Clone the repository or download the source code:
@@ -84,7 +91,7 @@ $ sudo systemctl status mongod
    ```bash
    `cd news-api`
    ```
-3. Install dependencies:
+<!-- 3. Install dependencies:
 
    ```bash
    `yarn install`
@@ -101,19 +108,14 @@ $ sudo systemctl status mongod
     or
     ```bash
     `npm start`
-    ```
+    ``` -->
 5. Using docker:
     To start the server using docker, run the following commands:
     ```bash
-      `docker-compose build`
-      `docker-compose up`
+      `docker build -t <image-name> .`
+      `docker run -p 3000:3000 <image-name>`
     ```
     The server will be running on port `http://localhost:3000`.
-
-    To Stop the server, run the following command:
-    ```bash
-      `docker-compose down`
-    ```
 ## Usage
 
 1. Use an API client (e.g., Postman or `curl`) to send HTTP requests to the API endpoints.
