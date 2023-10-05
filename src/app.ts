@@ -6,10 +6,8 @@ import dotenv from 'dotenv';
 
 import userRoutes from "./routes/userRoutes";
 import newsRoutes from "./routes/newsRoutes";
-import NodeCache from "node-cache";
-import cron from "node-cron";
 
-const cache = new NodeCache();
+import { startBackgroundUpdates } from './services/backgroundUpdatesService';
 
 dotenv.config();
 
@@ -21,6 +19,8 @@ mongoConfig.once('open', () => {
     if(error) {
       console.error(error);
     }
+    // Start background updates to cahce news articles
+    startBackgroundUpdates();
     console.log("Server running on port 3000");
   });
 }).on('error', (err) => {

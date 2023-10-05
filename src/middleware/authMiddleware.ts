@@ -21,6 +21,6 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
   if (!decodedToken) {
     return res.sendStatus(403); // Forbidden
   }
-  req.userId = decodedToken.user._id;
+  req.userId = decodedToken.user._id || decodedToken.user.id;
   next();
 };

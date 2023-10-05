@@ -14,13 +14,14 @@ import {
   searchMiddleware,
   setFavoriteMiddleware,
   setReadArticleMiddleware,
+  getNewsArticlesMiddleware
 } from "../middleware/newsMiddleware";
 
 const router = express.Router();
 
 // News Articles Route
 
-router.get("/articles", authenticateJWT, getNewsArticles);
+router.get("/articles", authenticateJWT, getNewsArticlesMiddleware, getNewsArticles);
 
 router.post("/read", authenticateJWT, setReadArticleMiddleware, setReadArticles);
 

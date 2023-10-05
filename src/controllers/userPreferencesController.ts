@@ -59,3 +59,41 @@ export const getUserPreferences = async (req: CustomRequest, res: Response) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+// Remove User Preferences
+export const removeUserPreferences = async (req: CustomRequest, res: Response) => {
+  try {
+    const { userId, body } = req;
+    const { removeCategories, removeSources }: { removeCategories?: string[]; removeSources?: string[] } = body;
+
+    // Check if the user exists
+    let existingUser = await UserModel.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    // make it empty if empty array is provided
+    const updatedCategories = removeCategories ? existingUser.preferences.categories.filter((category) => !removeCategories.includes(category)) : [];
+    const updatedSources = removeSources ? existingUser.preferences.sources.filter((source) => !removeSources.includes(source)) : [];
+  
+    // Update preferences
+    existingUser.preferences= {
+      categories: updatedCategories,
+      sources: updatedSources
+    }
+
+    // Save the updated user preferences
+    await existingUser.save().then((user) => {
+      return res.status(201).json({ message: "Preferences updated successfully" });
+    }).catch((error) => {
+      console.error(error);
+      return res.status(500).json({ message: "Error Writing to the DB" });
+    });
+
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

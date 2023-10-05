@@ -1,6 +1,6 @@
 import express from 'express';
 import { registerUser, loginUser } from '../controllers/userController'; // Import user controllers
-import { getUserPreferences, setUserPreferences } from '../controllers/userPreferencesController';
+import { getUserPreferences, setUserPreferences, removeUserPreferences } from '../controllers/userPreferencesController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import { categoriesMiddleware } from '../middleware/categoriesMiddleware';
 
@@ -16,5 +16,7 @@ router.post('/login', loginUser);
 router.post('/preferences', authenticateJWT, categoriesMiddleware,  setUserPreferences);
 
 router.get('/preferences', authenticateJWT, getUserPreferences);
+
+router.delete('/preferences', authenticateJWT, removeUserPreferences);
 
 export default router;
