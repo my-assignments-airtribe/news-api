@@ -8,7 +8,9 @@ export const startBackgroundUpdates = () => {
   cron.schedule('*/5 * * * *', async () => {
     try {
       const users = await User.find().select('preferences');
-
+      if (!users) {
+        return;
+      }
       for (const user of users) {
         const cacheKey = 'news-' + user._id;
 

@@ -15,7 +15,11 @@ RUN yarn install
 COPY . .
 
 # Expose the port the app runs in
-EXPOSE 3000
+ENV PORT=3000
+ENV NODE_ENV=production
+
+# Expose the port the app runs in
+EXPOSE $PORT
 
 # Serve the app
 CMD ["yarn", "start"]

@@ -162,6 +162,15 @@ $ sudo systemctl status mongod
 - **Method**: `GET`
 - **Description**: Get user's news preferences
 
+### Preferences
+- **Endpoint**: `/user/preferences`
+- **Method**: `DELETE`
+- **Description**: Delete user's news preferences
+- **Request Body**:
+  - `categories`: Array of news categories
+  - `sources`: Array of news sources
+  - pass nothing in the body to delete all preferences
+
 ### News Articles
 - **Endpoint**: `/news/articles`
 - **Method**: `GET`
