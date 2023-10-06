@@ -43,6 +43,7 @@ Explore the README below to get started with installation, usage, and configurat
 
 Connect to the live API at [https://news-api-uyyo.onrender.com](https://news-api-uyyo.onrender.com)
 use this as the base url in postman to test the api
+Postman Collections https://www.postman.com/technical-meteorologist-67633698/workspace/assignments/request/30217981-7ce8cb8d-ec69-44e8-9245-b84b7ac0ed5d
 
 ## Getting Started
 
