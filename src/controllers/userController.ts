@@ -16,6 +16,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const { username, password, email } = req.body;
 
     // Check if the username is already in use
+    console.log("HERE", username)
     const existingUser = await UserModel.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username is already taken" });
