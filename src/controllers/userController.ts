@@ -7,16 +7,14 @@ import { generateToken } from "../services/authService";
 // User Registration
 export const registerUser = async (req: Request, res: Response) => {
   try {
+
+    const { username, password, email } = req.body;
     // Validate request body against the registration schema
-    const { error } = registrationSchema.validate(req.body);
+    const { error } = registrationSchema.validate({username, password, email}, { stripUnknown: true });
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-
-    const { username, password, email } = req.body;
-
     // Check if the username is already in use
-    console.log("HERE", username)
     const existingUser = await UserModel.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username is already taken" });
@@ -50,7 +48,7 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   try {
     // Validate request body against the login schema
-    const { error } = loginSchema.validate(req.body);
+    const { error } = loginSchema.validate(req.body, { stripUnknown: true });
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }

@@ -3,20 +3,21 @@ import { registerUser, loginUser } from '../controllers/userController'; // Impo
 import { getUserPreferences, setUserPreferences, removeUserPreferences } from '../controllers/userPreferencesController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import { categoriesMiddleware } from '../middleware/categoriesMiddleware';
+import { limiter } from '../services/rateLimiter';
 
 const router = express.Router();
 
 // User Registration Route
-router.post('/register', registerUser);
+router.post('/register', limiter, registerUser);
 
 // User Login Route
-router.post('/login', loginUser);
+router.post('/login', limiter,  loginUser);
 
 // User Preferences Route
-router.post('/preferences', authenticateJWT, categoriesMiddleware,  setUserPreferences);
+router.post('/preferences', limiter, authenticateJWT, categoriesMiddleware,  setUserPreferences);
 
 router.get('/preferences', authenticateJWT, getUserPreferences);
 
-router.delete('/preferences', authenticateJWT, removeUserPreferences);
+router.delete('/preferences', limiter, authenticateJWT, removeUserPreferences);
 
 export default router;

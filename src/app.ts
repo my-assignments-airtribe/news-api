@@ -8,6 +8,7 @@ import userRoutes from "./routes/userRoutes";
 import newsRoutes from "./routes/newsRoutes";
 
 import { startBackgroundUpdates } from "./services/backgroundUpdatesService";
+import helmet from "helmet";
 
 dotenv.config();
 
@@ -16,13 +17,14 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware setup
 app.use(bodyParser.json());
-
+app.use(helmet());
 // Define routes
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "This is the News API",
   });
 });
+
 app.use("/user", userRoutes);
 app.use("/news", newsRoutes);
 
