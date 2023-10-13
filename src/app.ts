@@ -9,6 +9,7 @@ import newsRoutes from "./routes/newsRoutes";
 
 import { startBackgroundUpdates } from "./services/backgroundUpdatesService";
 import helmet from "helmet";
+import { limiter } from "./services/rateLimiter";
 
 dotenv.config();
 
@@ -19,14 +20,14 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(helmet());
 // Define routes
-app.get("/", (req, res) => {
+app.get("/", limiter, (req, res) => {
   res.status(200).json({
     message: "This is the News API",
   });
 });
 
-app.use("/user", userRoutes);
-app.use("/news", newsRoutes);
+app.use("/user", limiter, userRoutes);
+app.use("/news", limiter,  newsRoutes);
 
 // Start the Express server
 app.listen(PORT, (error?: any) => {
