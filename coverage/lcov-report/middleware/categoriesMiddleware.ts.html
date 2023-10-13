@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for middleware/authMiddleware.ts</title>
+    <title>Code coverage report for middleware/categoriesMiddleware.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">middleware</a> authMiddleware.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">middleware</a> categoriesMiddleware.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -88,56 +88,65 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../services/authService';
-import { AuthorizationError } from '../utils/error-types';
+import { isArrayofStrings } from '../utils/isArray';
 &nbsp;
-export interface CustomRequest extends Request {
-  userId?: string;
+&nbsp;
+&nbsp;
+export const categoriesMiddleware = (req: Request, res: Response, next: NextFunction) =&gt; {
+  if(!req.body) {
+    return res.status(400).json({ message: "Invalid Request" });
+  }
+  const { categories, sources }: { categories?: string[]; sources?: string[] } = req.body;
+    // if no categories or no sources, return one must be provided
+    // categories can be of the type business entertainment general health science sports technology.
+    const validCategories = ["business", "entertainment", "general", "health", "science", "sports", "technology"];
+    if (!categories &amp;&amp; !sources) {
+      return res.status(400).json({ message: "One of categories or sources must be provided" });
+    }
+    if (categories &amp;&amp; !isArrayofStrings(categories)) {
+      return res.status(400).json({ message: "Categories must be an array of strings" });
+    }
+    if (categories &amp;&amp; !categories.every((category: string) =&gt; validCategories.includes(category.toLowerCase().trim()))) {
+      return res.status(400).json({ message: "Categories must be one of business, entertainment, general, health, science, sports, technology" });
+    }
+    if (sources &amp;&amp; !isArrayofStrings(sources)) {
+      return res.status(400).json({ message: "Sources must be an array of strings" });
+    }
+    next();
 }
 &nbsp;
-export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) =&gt; {
-  const token = req.headers.authorization;
-  // console.log(req.headers.authorization)
-  // Unauthorized
-  if (!token) {
-    throw new AuthorizationError("Unauthorized");
-  }
-&nbsp;
-  // Validate the token
-  const decodedToken = verifyToken(token);
-&nbsp;
-  if (!decodedToken) {
-    throw new AuthorizationError("Unauthorized");
-  }
-  req.userId = decodedToken.userId;
-  next();
-};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
