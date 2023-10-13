@@ -18,8 +18,8 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
   const decodedToken = verifyToken(token);
 
   if (!decodedToken) {
-    return res.sendStatus(403); // Forbidden
+    throw new AuthorizationError("Unauthorized");
   }
-  req.userId = decodedToken.user._id || decodedToken.user.id;
+  req.userId = decodedToken.userId || decodedToken.userId;
   next();
 };

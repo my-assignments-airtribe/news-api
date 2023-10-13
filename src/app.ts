@@ -50,3 +50,5 @@ app.listen(PORT, (error?: any) => {
   }
 });
 
+export default app;
+

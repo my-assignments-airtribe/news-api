@@ -71,7 +71,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     // Generate and send an access token as a response
-    const accessToken = generateToken(user);
+    const accessToken = generateToken(user.id || user._id);
 
     res.status(200).json({ accessToken });
   } catch (error) {

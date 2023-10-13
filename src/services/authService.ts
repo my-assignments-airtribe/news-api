@@ -1,19 +1,18 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { IUser } from '../models/User';
 
 dotenv.config();
 
 // Secret key for JWT token generation
 const secretKey = process.env.JWT_SECRET as string;
 
-export function generateToken(user: IUser): string {
-  const token = jwt.sign({ user }, secretKey, { expiresIn: '1d' });
+export function generateToken(userId: string): string {
+  const token = jwt.sign({ userId }, secretKey, { expiresIn: '1d' });
   return token;
 }
 
 interface DecodedToken {
-  user: IUser;
+  userId: string;
   iat: number;
   exp: number;
 }
