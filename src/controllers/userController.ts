@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import UserModel from "../models/User";
 import { loginSchema, registrationSchema } from "../validation/userValidation";
 import { generateToken } from "../services/authService";
+import { BadRequestError, UsernameTakenError, ValidationError } from "../utils/error-types";
 
 // User Registration
 export const registerUser = async (req: Request, res: Response) => {
@@ -12,12 +13,12 @@ export const registerUser = async (req: Request, res: Response) => {
     // Validate request body against the registration schema
     const { error } = registrationSchema.validate({username, password, email}, { stripUnknown: true });
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      throw new ValidationError(error.details[0].message);
     }
     // Check if the username is already in use
     const existingUser = await UserModel.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ message: "Username is already taken" });
+      throw new UsernameTakenError("Username is already taken");
     }
 
     // Hash the password before saving it
@@ -50,7 +51,7 @@ export const loginUser = async (req: Request, res: Response) => {
     // Validate request body against the login schema
     const { error } = loginSchema.validate(req.body, { stripUnknown: true });
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      throw new ValidationError(error.details[0].message);
     }
 
     const { username, password } = req.body;
@@ -59,14 +60,14 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      throw new BadRequestError("Invalid credentials");
     }
 
     // Check if the provided password matches the stored hash
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      throw new BadRequestError("Invalid credentials");
     }
 
     // Generate and send an access token as a response

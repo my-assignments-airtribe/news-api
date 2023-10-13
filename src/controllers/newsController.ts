@@ -4,13 +4,14 @@ import axios from "axios";
 import UserModel from "../models/User";
 import { getCache, setCache } from "../services/cacheServie";
 import { fetchNews } from "../services/fetchNewsService";
+import { BadRequestError } from "../utils/error-types";
 
 export const getNewsArticles = async (req: CustomRequest, res: Response) => {
   try {
     const { userId } = req;
     let existingUser = await UserModel.findById(userId).select('preferences');
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     const cacheKey = `news-${existingUser._id}`
     const cachedNews = getCache(cacheKey);
@@ -36,7 +37,7 @@ export const getReadArticles = async (req: CustomRequest, res: Response) => {
     let existingUser = await UserModel.findById(userId);
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     const readArticles = existingUser.readArticles.map((article) => {
       return {
@@ -57,7 +58,7 @@ export const setReadArticles = async (req: CustomRequest, res: Response) => {
     let existingUser = await UserModel.findById(userId);
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     let { readArticle } = body;
     readArticle.readAt = new Date().toISOString();
@@ -79,7 +80,7 @@ export const getFavoriteArticles = async (req: CustomRequest, res: Response) => 
     const { userId } = req;
     let existingUser = await UserModel.findById(userId);
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     const favoriteArticles = existingUser.favoriteArticles.map((article) => {
       return {
@@ -100,7 +101,7 @@ export const setFavoriteArticles = async (req: CustomRequest, res: Response) => 
     let existingUser = await UserModel.findById(userId);
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     let { favoriteArticle } = body;
     favoriteArticle.favoritedAt = new Date().toISOString();
@@ -124,7 +125,7 @@ export const removeFavoriteArticle = async (req: CustomRequest, res: Response) =
     
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     let { favoriteArticle } = body;
     existingUser.favoriteArticles = existingUser.favoriteArticles.filter((article) => article.articleUrl !== favoriteArticle.articleUrl);
@@ -145,7 +146,7 @@ export const searchNewsArticles = async (req: CustomRequest, res: Response) => {
     const keyword = req.params.keyword;
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
 
     const apiKey = process.env.NEWS_API_SECRET;

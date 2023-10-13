@@ -10,6 +10,7 @@ import newsRoutes from "./routes/newsRoutes";
 import { startBackgroundUpdates } from "./services/backgroundUpdatesService";
 import helmet from "helmet";
 import { limiter } from "./services/rateLimiter";
+import { errorHandler } from "./handlers/error-handler";
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(helmet());
 // Define routes
+
+app.use(errorHandler);
 app.get("/", limiter, (req, res) => {
   res.status(200).json({
     message: "This is the News API",

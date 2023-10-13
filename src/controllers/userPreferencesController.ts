@@ -3,6 +3,7 @@ import { Response } from "express";
 import UserModel from "../models/User";
 import { CustomRequest } from "../middleware/authMiddleware";
 import { preferencesSchema, removePreferencesSchema } from "../validation/userValidation";
+import { BadRequestError, ValidationError } from "../utils/error-types";
 
 // Set User Preferences
 export const setUserPreferences = async (req: CustomRequest, res: Response) => {
@@ -14,14 +15,14 @@ export const setUserPreferences = async (req: CustomRequest, res: Response) => {
     let existingUser = await UserModel.findById(userId);
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
 
     // Validate request body against the preferences schema
     const {error} = preferencesSchema.validate({categories, sources}, {stripUnknown: true});
 
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      throw new BadRequestError("User does not exist");
     }
 
     const updatedCategories = categories ? [...existingUser.preferences.categories, ...categories] : existingUser.preferences.categories;
@@ -57,7 +58,7 @@ export const getUserPreferences = async (req: CustomRequest, res: Response) => {
     // Check if the user exists
     const existingUser = await UserModel.findById(userId);
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
     // Return the user's preferences
     return res.status(200).json({ preferences: existingUser.preferences });
@@ -78,14 +79,14 @@ export const removeUserPreferences = async (req: CustomRequest, res: Response) =
     let existingUser = await UserModel.findById(userId);
 
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      throw new BadRequestError("User does not exist");
     }
 
     // Validate request body against the remove preferences schema
     const {error} = removePreferencesSchema.validate({removeCategories, removeSources}, {stripUnknown: true});
 
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      throw new BadRequestError("User does not exist");
     }
 
     // make it empty if empty array is provided
