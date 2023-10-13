@@ -15,7 +15,7 @@ export const fetchNews = async (user: IUser) => {
 
   const requests: Promise<AxiosResponse<any>>[] = [];
 
-  if (categories.length > 0) {
+  if (categories && categories.length > 0) {
     for (const category of categories) {
       requests.push(
         axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
@@ -30,7 +30,7 @@ export const fetchNews = async (user: IUser) => {
     }
   }
 
-  if (sources.length > 0) {
+  if (sources && sources.length > 0) {
     requests.push(
       axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
         params: {

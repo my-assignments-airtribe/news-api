@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { categoriesMiddleware } from '../../middleware/categoriesMiddleware';
+import { CustomRequest } from '../../middleware/authMiddleware';
 
 describe('categoriesMiddleware', () => {
   let req: Request;
@@ -7,7 +8,7 @@ describe('categoriesMiddleware', () => {
   let next: NextFunction;
 
   beforeEach(() => {
-    req = {} as Request;
+    req = {} as CustomRequest;
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
