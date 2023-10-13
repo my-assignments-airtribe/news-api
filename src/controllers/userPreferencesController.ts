@@ -2,6 +2,7 @@ import { Response } from "express";
 
 import UserModel from "../models/User";
 import { CustomRequest } from "../middleware/authMiddleware";
+import { preferencesSchema } from "../validation/userValidation";
 
 // Set User Preferences
 export const setUserPreferences = async (req: CustomRequest, res: Response) => {
@@ -14,6 +15,12 @@ export const setUserPreferences = async (req: CustomRequest, res: Response) => {
 
     if (!existingUser) {
       return res.status(400).json({ message: "User does not exist" });
+    }
+
+    const {error} = preferencesSchema.validate({categories, sources}, {stripUnknown: true});
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
     }
 
     const updatedCategories = categories ? [...existingUser.preferences.categories, ...categories] : existingUser.preferences.categories;

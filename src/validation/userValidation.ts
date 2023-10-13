@@ -11,3 +11,8 @@ export const loginSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const preferencesSchema = Joi.object({
+  categories: Joi.array().items(Joi.string()),
+  sources: Joi.array().items(Joi.string())
+});
