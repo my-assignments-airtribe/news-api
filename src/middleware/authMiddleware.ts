@@ -20,6 +20,6 @@ export const authenticateJWT = (req: CustomRequest, res: Response, next: NextFun
   if (!decodedToken) {
     throw new AuthorizationError("Unauthorized");
   }
-  req.userId = decodedToken.userId || decodedToken.userId;
+  req.userId = decodedToken.userId;
   next();
 };
