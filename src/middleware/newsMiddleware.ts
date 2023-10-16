@@ -9,7 +9,7 @@ export const setReadArticleMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.body) {
+    if (!req.body || req.body === null) {
       throw new BadRequestError("Invalid Request");
     }
     let {
@@ -92,7 +92,7 @@ export const setFavoriteMiddleware = async (
       _id: userId,
       favoriteArticles: { $elemMatch: { articleUrl: encodedArticleUrl } },
     });
-    if (existingArticle) {
+    if (!!existingArticle) {
       return res
         .status(400)
         .json({ message: "Article already added to Favorites" });
@@ -114,6 +114,9 @@ export const removeFavoriteMiddleware = async (
   next: NextFunction
 ) => {
   try {
+    if (!req.body) {
+      throw new BadRequestError("Invalid Request");
+    }
     const {
       favoriteArticle,
     }: {
@@ -122,19 +125,6 @@ export const removeFavoriteMiddleware = async (
       };
     } = req.body;
     const userId = req.userId;
-    const encodedArticleUrl = encodeURIComponent(
-      favoriteArticle.articleUrl.trim()
-    );
-    const existingArticle = await UserModel.findOne({
-      _id: userId,
-      favoriteArticles: { $elemMatch: { articleUrl: encodedArticleUrl } },
-    });
-    if (!existingArticle) {
-      return res.status(400).json({ message: "Article not found in favorite" });
-    }
-    if (existingArticle.favoriteArticles.length === 0) {
-      return res.status(400).json({ message: "Article not found in favorite" });
-    }
     if (!favoriteArticle) {
       return res
         .status(400)
@@ -151,6 +141,18 @@ export const removeFavoriteMiddleware = async (
         .status(400)
         .json({ message: "articleUrl must be a valid url" });
     }
+    const encodedArticleUrl = encodeURIComponent(
+      favoriteArticle.articleUrl.trim()
+    );
+    const existingArticle = await UserModel.findOne({
+      _id: userId,
+      favoriteArticles: { $elemMatch: { articleUrl: encodedArticleUrl } },
+    });
+
+    if (!existingArticle) {
+      return res.status(400).json({ message: "Article not found in favorite" });
+    }
+    
     if (favoriteArticle.articleUrl) {
       req.body.favoriteArticle.articleUrl = encodedArticleUrl;
     }
