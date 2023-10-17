@@ -33,7 +33,7 @@ describe('categoriesMiddleware', () => {
     req.body = { categories: 'not an array' };
     categoriesMiddleware(req, res, next);
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Categories must be an array of strings' });
+    expect(res.json).toHaveBeenCalledWith({ message: 'Categories must be one of business, entertainment, general, health, science, sports, technology' });
   });
 
   it('should return 400 if categories contains an invalid category', () => {

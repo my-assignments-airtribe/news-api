@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697536855990" clover="3.2.0">
-  <project timestamp="1697536855990" name="All files">
-    <metrics statements="210" coveredstatements="210" conditionals="69" coveredconditionals="69" methods="29" coveredmethods="29" elements="308" coveredelements="308" complexity="0" loc="210" ncloc="210" packages="5" files="12" classes="12"/>
+<coverage generated="1697538449783" clover="3.2.0">
+  <project timestamp="1697538449783" name="All files">
+    <metrics statements="212" coveredstatements="212" conditionals="61" coveredconditionals="61" methods="28" coveredmethods="28" elements="301" coveredelements="301" complexity="0" loc="212" ncloc="212" packages="6" files="13" classes="13"/>
     <package name="handlers">
       <metrics statements="13" coveredstatements="13" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
       <file name="error-handler.ts" path="/Users/ashrith/Development/airtribe/news-api/src/handlers/error-handler.ts">
@@ -22,7 +22,7 @@
       </file>
     </package>
     <package name="middleware">
-      <metrics statements="112" coveredstatements="112" conditionals="50" coveredconditionals="50" methods="12" coveredmethods="12"/>
+      <metrics statements="109" coveredstatements="109" conditionals="42" coveredconditionals="42" methods="11" coveredmethods="11"/>
       <file name="authMiddleware.ts" path="/Users/ashrith/Development/airtribe/news-api/src/middleware/authMiddleware.ts">
         <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="2" count="1" type="stmt"/>
@@ -38,22 +38,19 @@
         <line num="24" count="2" type="stmt"/>
       </file>
       <file name="categoriesMiddleware.ts" path="/Users/ashrith/Development/airtribe/news-api/src/middleware/categoriesMiddleware.ts">
-        <metrics statements="15" coveredstatements="15" conditionals="13" coveredconditionals="13" methods="2" coveredmethods="2"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="8" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="10" count="7" type="stmt"/>
-        <line num="13" count="7" type="stmt"/>
-        <line num="14" count="7" type="cond" truecount="3" falsecount="0"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="17" count="6" type="cond" truecount="3" falsecount="0"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="5" type="cond" truecount="3" falsecount="0"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="23" count="4" type="cond" truecount="3" falsecount="0"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
+        <metrics statements="12" coveredstatements="12" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="21" count="7" type="stmt"/>
+        <line num="23" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="27" count="4" type="cond" truecount="3" falsecount="0"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
       </file>
       <file name="newsMiddleware.ts" path="/Users/ashrith/Development/airtribe/news-api/src/middleware/newsMiddleware.ts">
         <metrics statements="86" coveredstatements="86" conditionals="35" coveredconditionals="35" methods="9" coveredmethods="9"/>
@@ -254,13 +251,24 @@
       </file>
       <file name="isArray.ts" path="/Users/ashrith/Development/airtribe/news-api/src/utils/isArray.ts">
         <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="3" count="10" type="cond" truecount="1" falsecount="0"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="8" count="7" type="stmt"/>
-        <line num="9" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="4" type="cond" truecount="1" falsecount="0"/>
         <line num="10" count="1" type="stmt"/>
-        <line num="15" count="6" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="validation">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="userValidation.ts" path="/Users/ashrith/Development/airtribe/news-api/src/validation/userValidation.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
       </file>
     </package>
   </project>
