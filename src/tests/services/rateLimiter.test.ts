@@ -16,7 +16,7 @@ describe('rateLimiter middleware', () => {
 
   it('should reject requests beyond the rate limit', async () => {
     // Send 11 requests within 1 minute
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < 101; i++) {
       await request(app).get('/');
     }
 

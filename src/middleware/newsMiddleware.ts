@@ -47,8 +47,7 @@ export const setReadArticleMiddleware = async (
     }
     next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
@@ -103,8 +102,7 @@ export const setFavoriteMiddleware = async (
     }
     next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
@@ -158,12 +156,11 @@ export const removeFavoriteMiddleware = async (
     }
     next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
-export const searchMiddleware = (
+export const searchMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction

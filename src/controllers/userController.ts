@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import UserModel from "../models/User";
 import { loginSchema, registrationSchema } from "../validation/userValidation";
@@ -6,7 +6,7 @@ import { generateToken } from "../services/authService";
 import { BadRequestError, UsernameTakenError, ValidationError } from "../utils/error-types";
 
 // User Registration
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response, next:NextFunction) => {
   try {
 
     const { username, password, email } = req.body;
@@ -40,13 +40,13 @@ export const registerUser = async (req: Request, res: Response) => {
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    // console.error("Caught an error:", error); 
+    next(error);
   }
 };
 
 // User Login
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response, next:NextFunction) => {
   try {
     // Validate request body against the login schema
     const { error } = loginSchema.validate(req.body, { stripUnknown: true });
@@ -75,7 +75,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     res.status(200).json({ accessToken });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    // console.error(error);
+    next(error);
   }
 };

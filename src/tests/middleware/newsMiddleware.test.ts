@@ -43,14 +43,13 @@ describe("setReadArticleMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should return an error if the request body is invalid", async () => {
+  it("should go to the next function if the request body is invalid", async () => {
     req.body = null;
 
     console.error = jest.fn();
     await setReadArticleMiddleware(req, res as Response, next);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new BadRequestError('Invalid Request'));
     
   });
 
@@ -123,15 +122,13 @@ describe("setReadArticleMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should return a server error if an exception is thrown", async () => {
+  it("should go to the next function  if an exception is thrown", async () => {
     (UserModel.findOne as jest.Mock).mockRejectedValue(new Error());
 
     await setReadArticleMiddleware(req, res as Response, next);
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new Error());
   });
 });
 
@@ -172,14 +169,13 @@ describe("setFavoriteMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should return an error if the request body is invalid", async () => {
+  it("should call next if the request body is invalid", async () => {
     req.body = null;
 
     console.error = jest.fn();
     await setFavoriteMiddleware(req, res as Response, next);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new BadRequestError('Invalid Request'));
     
   });
 
@@ -252,15 +248,13 @@ describe("setFavoriteMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should return a server error if an exception is thrown", async () => {
+  it("should call next if an exception is thrown", async () => {
     (UserModel.findOne as jest.Mock).mockRejectedValue(new Error());
 
     await setFavoriteMiddleware(req, res as Response, next);
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new Error());
   });
 });
 
@@ -301,14 +295,13 @@ describe("removeFavoriteMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should return an error if the request body is invalid", async () => {
+  it("should call the next fn if the request body is invalid", async () => {
     req.body = null;
 
     console.error = jest.fn();
     await removeFavoriteMiddleware(req, res as Response, next);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new BadRequestError('Invalid Request'));
     
   });
 
@@ -386,15 +379,12 @@ describe("removeFavoriteMiddleware", () => {
     });
   });
 
-  it("should return a server error if an exception is thrown", async () => {
+  it("should call the next fn if an exception is thrown", async () => {
     (UserModel.findOne as jest.Mock).mockRejectedValue(new Error());
 
     await removeFavoriteMiddleware(req, res as Response, next);
-
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "Server error",
-    });
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(new Error());
   });
 });
 

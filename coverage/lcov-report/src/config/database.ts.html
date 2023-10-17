@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.61% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/13</span>
+                <span class='fraction'>12/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.61% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/13</span>
+                <span class='fraction'>12/15</span>
             </div>
         
             
@@ -95,7 +95,11 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -106,22 +110,26 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -138,16 +146,19 @@ const username = process.env.MONGODB_USERNAME as string;
 const password = process.env.MONGODB_PASSWORD as string;
 const clusterName = process.env.MONGODB_CLUSTER_NAME as string;
 const MONGODB_URL = process.env.MONGODB_URL as string;
+const MONGODB_TEST_URL = process.env.MONGODB_TEST_URL as string;
 &nbsp;
 &nbsp;
-const mongoURI = `mongodb+srv://${username}:${password}@${clusterName}.${MONGODB_URL}`;
+const mongoURI =  process.env.NODE_ENV === 'test' ? MONGODB_TEST_URL : <span class="branch-1 cbranch-no" title="branch not covered" >`mongodb+srv://${username}:${password}@${clusterName}.${MONGODB_URL}`;</span>
+&nbsp;
+&nbsp;
 &nbsp;
 const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 } as ConnectOptions;
-&nbsp;
-mongoose
+<span class="missing-if-branch" title="if path not taken" >I</span>if(process.env.NODE_ENV !== 'test') {
+<span class="cstat-no" title="statement not covered" >  mongoose</span>
   .connect(mongoURI, mongoOptions)
   .then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
 <span class="cstat-no" title="statement not covered" >    console.log('Connected to MongoDB');</span>
@@ -155,6 +166,7 @@ mongoose
   .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
 <span class="cstat-no" title="statement not covered" >    console.error('Error connecting to MongoDB:', err);</span>
   });
+}
 &nbsp;
 export default mongoose.connection;
 &nbsp;
@@ -166,7 +178,7 @@ export default mongoose.connection;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-13T07:57:02.283Z
+                at 2023-10-17T19:29:58.935Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

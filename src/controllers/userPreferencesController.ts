@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 
 import UserModel from "../models/User";
 import { CustomRequest } from "../middleware/authMiddleware";
@@ -6,7 +6,7 @@ import { preferencesSchema, removePreferencesSchema } from "../validation/userVa
 import { BadRequestError, ValidationError } from "../utils/error-types";
 
 // Set User Preferences
-export const setUserPreferences = async (req: CustomRequest, res: Response) => {
+export const setUserPreferences = async (req: CustomRequest, res: Response, next: NextFunction) => {
   try {
     const { userId, body } = req;
     const { categories, sources }: { categories?: string[]; sources?: string[] } = body;
@@ -19,40 +19,34 @@ export const setUserPreferences = async (req: CustomRequest, res: Response) => {
     }
 
     // Validate request body against the preferences schema
-    const {error} = preferencesSchema.validate({categories, sources}, {stripUnknown: true});
+    const { error } = preferencesSchema.validate({ categories, sources }, { stripUnknown: true });
 
     if (error) {
-      throw new BadRequestError("User does not exist");
+      throw new BadRequestError("Invalid preferences data");
     }
 
-    const updatedCategories = categories ? [...existingUser.preferences.categories, ...categories] : existingUser.preferences.categories;
-    const updatedSources = sources ? [...existingUser.preferences.sources, ...sources] : existingUser.preferences.sources;
-  
     // Update preferences
-    existingUser.preferences= {
-      // update with unique values
-      categories: [...new Set(updatedCategories)],
-      sources: [...new Set(updatedSources)]
+    if (categories) {
+      existingUser.preferences.categories = [...new Set([...existingUser.preferences.categories, ...categories])];
+    }
+    if (sources) {
+      existingUser.preferences.sources = [...new Set([...existingUser.preferences.sources, ...sources])];
     }
 
     // Save the updated user preferences
-    await existingUser.save().then((user) => {
-      return res.status(201).json({ message: "Preferences updated successfully" });
-    }).catch((error) => {
-      console.error(error);
-      return res.status(500).json({ message: "Error Writing to the DB" });
-    });
-
+    await existingUser.save();
     
+    res.status(201).json({ message: "Preferences updated successfully" });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
 
+
 // Get User Preferences
-export const getUserPreferences = async (req: CustomRequest, res: Response) => {
+export const getUserPreferences = async (req: CustomRequest, res: Response, next:NextFunction) => {
   try {
     const userId = req.userId;
     // Check if the user exists
@@ -64,13 +58,12 @@ export const getUserPreferences = async (req: CustomRequest, res: Response) => {
     return res.status(200).json({ preferences: existingUser.preferences });
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 
 // Remove User Preferences
-export const removeUserPreferences = async (req: CustomRequest, res: Response) => {
+export const removeUserPreferences = async (req: CustomRequest, res: Response, next: NextFunction) => {
   try {
     const { userId, body } = req;
     const { removeCategories, removeSources }: { removeCategories?: string[]; removeSources?: string[] } = body;
@@ -83,33 +76,30 @@ export const removeUserPreferences = async (req: CustomRequest, res: Response) =
     }
 
     // Validate request body against the remove preferences schema
-    const {error} = removePreferencesSchema.validate({removeCategories, removeSources}, {stripUnknown: true});
+    const { error } = removePreferencesSchema.validate({ removeCategories, removeSources }, { stripUnknown: true });
 
     if (error) {
-      throw new BadRequestError("User does not exist");
+      throw new BadRequestError("Invalid remove preferences data");
     }
 
-    // make it empty if empty array is provided
-    const updatedCategories = removeCategories ? existingUser.preferences.categories.filter((category) => !removeCategories.includes(category)) : [];
-    const updatedSources = removeSources ? existingUser.preferences.sources.filter((source) => !removeSources.includes(source)) : [];
-  
     // Update preferences
-    existingUser.preferences= {
-      categories: updatedCategories,
-      sources: updatedSources
+    if (removeCategories) {
+      existingUser.preferences.categories = existingUser.preferences.categories.filter(
+        (category) => !removeCategories.includes(category)
+      );
+    }
+    if (removeSources) {
+      existingUser.preferences.sources = existingUser.preferences.sources.filter(
+        (source) => !removeSources.includes(source)
+      );
     }
 
     // Save the updated user preferences
-    await existingUser.save().then((user) => {
-      return res.status(201).json({ message: "Preferences updated successfully" });
-    }).catch((error) => {
-      console.error(error);
-      return res.status(500).json({ message: "Error Writing to the DB" });
-    });
-
+    await existingUser.save();
     
+    res.status(201).json({ message: "Preferences updated successfully" });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
