@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import http from "http"; // Import the Node.js built-in HTTP module
 import bodyParser from "body-parser";
 import mongoConfig from "./config/database";
@@ -10,7 +10,7 @@ import helmet from "helmet";
 import { limiter } from "./services/rateLimiter";
 import { errorHandler } from "./handlers/error-handler";
 import logger from "./logger";
-import express, { Request, Response, NextFunction } from 'express';
+
 
 dotenv.config();
 
