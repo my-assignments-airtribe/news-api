@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697646608537" clover="3.2.0">
-  <project timestamp="1697646608537" name="All files">
+<coverage generated="1697646814758" clover="3.2.0">
+  <project timestamp="1697646814758" name="All files">
     <metrics statements="490" coveredstatements="473" conditionals="99" coveredconditionals="92" methods="73" coveredmethods="67" elements="662" coveredelements="632" complexity="0" loc="490" ncloc="490" packages="10" files="21" classes="21"/>
     <package name="src">
       <metrics statements="34" coveredstatements="32" conditionals="4" coveredconditionals="2" methods="6" coveredmethods="5"/>
@@ -219,13 +219,13 @@
         <line num="109" count="5" type="cond" truecount="1" falsecount="0"/>
         <line num="110" count="1" type="stmt"/>
         <line num="113" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="114" count="3" type="stmt"/>
-        <line num="118" count="1" type="stmt"/>
-        <line num="120" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="114" count="2" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="120" count="2" type="cond" truecount="0" falsecount="1"/>
         <line num="121" count="0" type="stmt"/>
-        <line num="125" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="127" count="1" type="stmt"/>
-        <line num="130" count="5" type="stmt"/>
+        <line num="125" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="127" count="2" type="stmt"/>
+        <line num="130" count="4" type="stmt"/>
       </file>
       <file name="userPreferencesController.ts" path="/Users/ashrith/Development/airtribe/news-api/src/controllers/userPreferencesController.ts">
         <metrics statements="50" coveredstatements="50" conditionals="9" coveredconditionals="9" methods="8" coveredmethods="8"/>
@@ -233,51 +233,51 @@
         <line num="5" count="4" type="stmt"/>
         <line num="6" count="4" type="stmt"/>
         <line num="9" count="4" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="19" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="19" count="4" type="cond" truecount="1" falsecount="0"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="26" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="26" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="27" count="1" type="stmt"/>
-        <line num="31" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="34" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="31" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="34" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="35" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
         <line num="44" count="2" type="stmt"/>
         <line num="51" count="4" type="stmt"/>
-        <line num="52" count="2" type="stmt"/>
-        <line num="53" count="2" type="stmt"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="57" count="2" type="stmt"/>
-        <line num="58" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="53" count="3" type="stmt"/>
+        <line num="55" count="3" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
+        <line num="58" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="59" count="1" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
         <line num="70" count="4" type="stmt"/>
-        <line num="71" count="3" type="stmt"/>
-        <line num="72" count="3" type="stmt"/>
-        <line num="73" count="3" type="stmt"/>
-        <line num="76" count="3" type="stmt"/>
-        <line num="78" count="3" type="stmt"/>
-        <line num="80" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="71" count="4" type="stmt"/>
+        <line num="72" count="4" type="stmt"/>
+        <line num="73" count="4" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
+        <line num="78" count="4" type="stmt"/>
+        <line num="80" count="4" type="cond" truecount="1" falsecount="0"/>
         <line num="81" count="1" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="87" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="85" count="3" type="stmt"/>
+        <line num="87" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="88" count="1" type="stmt"/>
-        <line num="92" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="92" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="93" count="1" type="stmt"/>
         <line num="94" count="1" type="stmt"/>
-        <line num="97" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="97" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="98" count="1" type="stmt"/>
         <line num="99" count="1" type="stmt"/>
-        <line num="104" count="1" type="stmt"/>
-        <line num="106" count="1" type="stmt"/>
+        <line num="104" count="2" type="stmt"/>
+        <line num="106" count="2" type="stmt"/>
         <line num="109" count="2" type="stmt"/>
       </file>
     </package>
@@ -287,16 +287,16 @@
         <metrics statements="13" coveredstatements="13" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="2" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
-        <line num="5" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="5" count="9" type="cond" truecount="1" falsecount="0"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="8" count="9" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="8" type="cond" truecount="1" falsecount="0"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="11" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="7" type="cond" truecount="1" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="14" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="6" type="cond" truecount="1" falsecount="0"/>
         <line num="15" count="2" type="stmt"/>
-        <line num="17" count="5" type="cond" truecount="1" falsecount="0"/>
-        <line num="18" count="2" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="18" count="1" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
       </file>
     </package>
@@ -307,29 +307,29 @@
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="9" count="4" type="stmt"/>
-        <line num="10" count="13" type="stmt"/>
-        <line num="13" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="16" type="stmt"/>
+        <line num="13" count="16" type="cond" truecount="1" falsecount="0"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="18" count="12" type="stmt"/>
-        <line num="20" count="12" type="cond" truecount="1" falsecount="0"/>
+        <line num="18" count="15" type="stmt"/>
+        <line num="20" count="15" type="cond" truecount="1" falsecount="0"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="23" count="11" type="stmt"/>
-        <line num="24" count="11" type="stmt"/>
+        <line num="23" count="14" type="stmt"/>
+        <line num="24" count="14" type="stmt"/>
       </file>
       <file name="categoriesMiddleware.ts" path="/Users/ashrith/Development/airtribe/news-api/src/middleware/categoriesMiddleware.ts">
         <metrics statements="12" coveredstatements="12" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="3" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
-        <line num="8" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="9" type="cond" truecount="1" falsecount="0"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="11" count="7" type="stmt"/>
-        <line num="12" count="7" type="stmt"/>
-        <line num="21" count="7" type="stmt"/>
-        <line num="23" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="23" count="8" type="cond" truecount="1" falsecount="0"/>
         <line num="24" count="3" type="stmt"/>
-        <line num="27" count="4" type="cond" truecount="3" falsecount="0"/>
+        <line num="27" count="5" type="cond" truecount="3" falsecount="0"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="45" count="3" type="stmt"/>
+        <line num="45" count="4" type="stmt"/>
       </file>
       <file name="newsMiddleware.ts" path="/Users/ashrith/Development/airtribe/news-api/src/middleware/newsMiddleware.ts">
         <metrics statements="84" coveredstatements="84" conditionals="35" coveredconditionals="35" methods="10" coveredmethods="10"/>
@@ -473,12 +473,12 @@
         <line num="4" count="6" type="stmt"/>
         <line num="7" count="6" type="stmt"/>
         <line num="9" count="6" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
         <line num="21" count="6" type="stmt"/>
-        <line num="22" count="11" type="stmt"/>
-        <line num="23" count="11" type="stmt"/>
-        <line num="24" count="10" type="stmt"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="23" count="14" type="stmt"/>
+        <line num="24" count="13" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
       </file>
       <file name="backgroundUpdatesService.ts" path="/Users/ashrith/Development/airtribe/news-api/src/services/backgroundUpdatesService.ts">
@@ -558,9 +558,9 @@
         <line num="27" count="4" type="stmt"/>
         <line num="28" count="4" type="stmt"/>
         <line num="29" count="4" type="stmt"/>
-        <line num="35" count="29" type="stmt"/>
-        <line num="36" count="29" type="stmt"/>
-        <line num="37" count="29" type="stmt"/>
+        <line num="35" count="28" type="stmt"/>
+        <line num="36" count="28" type="stmt"/>
+        <line num="37" count="28" type="stmt"/>
         <line num="41" count="10" type="stmt"/>
       </file>
       <file name="isArray.ts" path="/Users/ashrith/Development/airtribe/news-api/src/utils/isArray.ts">

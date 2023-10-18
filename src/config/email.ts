@@ -10,7 +10,7 @@ const domain = process.env.MAILGUN_DOMAIN as string;
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
   username: 'api',
-    key: apiKey
+  key: apiKey
 });
 
 

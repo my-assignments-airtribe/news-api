@@ -35,7 +35,7 @@ export const registerUser = async (
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
     const token = generateEmailToken(32);
-
+    const verification = `Click Link to verify Email: ${process.env.CLIENT_URL}/user/verify-email/${token}`;
     // Create a new user
     const newUser = new UserModel({
       username,
@@ -49,9 +49,6 @@ export const registerUser = async (
         sources: [],
       },
     });
-
-    await newUser.save();
-    const verification = `Click Link to verify Email: ${process.env.CLIENT_URL}/user/verify-email/${token}`;
     // Send a verification email to the user
     await sendEmail(email, "Verify your email", verification)
       .then(() => {
@@ -60,7 +57,7 @@ export const registerUser = async (
       .catch((err) => {
         throw new Error(`Error sending verification email: ${err}`);
       });
-
+    await newUser.save();
     // res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     // console.error("Caught an error:", error);
@@ -82,8 +79,7 @@ export const verifyEmail = async (
     user.emailVerified = true;
     await user.save();
     res.status(200).json({ message: "Email Verified" });
-  }
-  catch (error) {
+  } catch (error) {
     next(error);
   }
 };
@@ -110,7 +106,7 @@ export const loginUser = async (
       throw new BadRequestError("User does not exist");
     }
 
-    if(!user.emailVerified) {
+    if (!user.emailVerified) {
       throw new BadRequestError("Email not verified");
     }
 

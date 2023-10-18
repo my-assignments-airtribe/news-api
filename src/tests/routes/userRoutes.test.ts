@@ -26,7 +26,7 @@ afterAll(async () => {
   accessToken = "";
 });
 
-describe("User Routes", () => {
+describe.only("User Routes", () => {
   it("should register a new user", async () => {
     const response = await request(app).post("/user/register").send({
       username: "testuser",
@@ -36,11 +36,6 @@ describe("User Routes", () => {
     expect(response.status).toBe(201);
 
     const user = await UserModel.findOne({ username: "testuser" });
-    // verfiy the user
-    await UserModel.findOneAndUpdate(
-      { username: "testuser" },
-      { emailVerified: true }
-    );
     expect(user).toBeTruthy();
     expect(user?.username).toBe("testuser");
     expect(user?.email).toBe("testuser@example.com");
@@ -60,7 +55,11 @@ describe("User Routes", () => {
   });
 
   it("should login an existing user", async () => {
-    
+    // verfiy the user
+    await UserModel.findOneAndUpdate(
+      { username: "testuser" },
+      { emailVerified: true }
+    );
 
     const loginResponse = await request(app).post("/user/login").send({
       username: "testuser",
