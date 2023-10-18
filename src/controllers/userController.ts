@@ -60,7 +60,7 @@ export const loginUser = async (req: Request, res: Response, next:NextFunction) 
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      throw new BadRequestError("Invalid credentials");
+      throw new BadRequestError("User does not exist");
     }
 
     // Check if the provided password matches the stored hash

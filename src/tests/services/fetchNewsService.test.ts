@@ -89,6 +89,35 @@ describe.only("fetchNews", () => {
     expect([...new Set(articles)]).toEqual(expectedArticles);
   });
 
+  it("should fetch news based on a specific keyword", async () => {
+    const keyword = "technology";
+  
+    const expectedArticles = [
+      { title: "Article 1", source: { id: "cnn" } },
+      { title: "Article 2", source: { id: "bbc-news" } },
+    ];
+  
+    const axiosResponse = {
+      data: { articles: expectedArticles },
+    };
+  
+    (axios.get as jest.Mock).mockResolvedValue(axiosResponse);
+  
+    const articles = await fetchNews(user, keyword);
+  
+    expect(axios.get).toHaveBeenCalledTimes(4);
+    expect(axios.get).toHaveBeenCalledWith(`${newsApiUrl}/top-headlines`, {
+      params: {
+        apiKey,
+        q: keyword,
+        page: 1,
+        pageSize: 10,
+      },
+    });
+    expect([...new Set(articles)]).toHaveLength(2);
+    expect([...new Set(articles)]).toEqual(expectedArticles);
+  });
+
   it("should throw an error if any request fails", async () => {
     (axios.get as jest.Mock).mockRejectedValue(new Error("Test error"));
     console.error = jest.fn();

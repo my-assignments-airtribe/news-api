@@ -1,309 +1,408 @@
-import request from "supertest";
-import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose, { ConnectOptions } from "mongoose";
-import app from "../../app";
+import { getNewsArticles, getReadArticles, setReadArticles, getFavoriteArticles, setFavoriteArticles, removeFavoriteArticle, searchNewsArticles } from "../../controllers/newsController";
+import { BadRequestError } from "../../utils/error-types";
 import UserModel from "../../models/User";
-import { generateToken } from "../../services/authService";
 import { getCache, setCache } from "../../services/cacheServie";
+import { fetchNews } from "../../services/fetchNewsService";
+import { Request, Response, NextFunction } from "express";
+import { CustomRequest } from "../../middleware/authMiddleware";
 
-let mongoServer: MongoMemoryServer;
-beforeAll(async () => {
-  mongoServer = new MongoMemoryServer();
-  await mongoServer.start(); // Use start to initiate the MongoDB server
-  const mongoUri = mongoServer.getUri(); // Get the URI after starting
-  const mongooseOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  } as ConnectOptions;
-  await mongoose.connect(mongoUri, mongooseOptions);
-});
+jest.mock("../../services/cacheServie");
+jest.mock("../../services/fetchNewsService");
+jest.mock("../../models/User");
 
-afterEach(async () => {
-  // Clear the UserModel collection after each test
-  await UserModel.deleteMany({});
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
-  await mongoServer.stop();
-  app.close();
-});
-
-describe("newsController", () => {
-  let user: any;
-  let auth_token: string;
-
-  beforeEach(async () => {
-    user = new UserModel({
-      username: "test",
-      password: "testPassword",
-      email: "test@example.com",
-      preferences: {
-        category: "business",
-      },
-    });
-    await user.save();
-    auth_token = await generateToken(user._id);
-  });
-
-  afterEach(async () => {
-    await UserModel.deleteMany({});
-  });
-
-  jest.mock("../../services/cacheServie", () => ({
-    getCache: jest.fn(),
-  }));
-
+describe("News Controller", () => {
+  let res: Response<any, Record<string, any>>;
+  let next: NextFunction;
+  let req: CustomRequest;
   describe("getNewsArticles", () => {
-    it("should return 200 and an array of articles", async () => {
-      const response = await request(app)
-        .get("/news/articles")
-        .set("Authorization", `${auth_token}`)
-        .expect(200);
-
-      expect(response.body.articles).toBeDefined();
-      expect(Array.isArray(response.body.articles)).toBe(true);
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+      } as CustomRequest;
     });
 
-    it("should throw unauthorized if no token", async () => {
-      const response = await request(app)
-        .get("/news/articles")
-        .expect(403);
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should return cached articles if available", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        preferences: {
+          categories: ["business"],
+        },
+      };
 
-      expect(response.body.message).toBe("Unauthorized");
+      (UserModel.findById as jest.Mock).mockImplementation(() => ({
+        select: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue(existingUser),
+      }));
+
+      const cachedNews = [{ title: "Article 1" }, { title: "Article 2" }];
+      // @ts-ignore
+      getCache.mockReturnValue(cachedNews);
+
+      await getNewsArticles(req, res, next);
+
+      expect(getCache).toHaveBeenCalledWith(`news-${existingUser._id}`);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        cachedArticles: cachedNews,
+        totalCachedArticles: cachedNews.length,
+      });
+      expect(fetchNews).not.toHaveBeenCalled();
+      expect(setCache).not.toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const response = await request(app)
-        .get("/news/articles")
-        .set("Authorization", `${auth_token}`)
-        .expect(400);
+    it("should fetch articles and cache them if not available in cache", async () => {
+      const existingUser = {
+        _id: "testUserId",
+      };
 
-      expect(response.body.message).toBe("User does not exist");
-      // expect BadRequestError to be thrown
-      expect
+      (UserModel.findById as jest.Mock).mockImplementation(() => ({
+        select: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue(existingUser),
+      }));
+
+      const articles = [{ title: "Article 1" }, { title: "Article 2" }];
+      // @ts-ignore
+      fetchNews.mockResolvedValue(articles);
+
+      await getNewsArticles(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        articles: articles,
+        totalArticles: articles.length,
+      });
+      expect(fetchNews).toHaveBeenCalledWith(existingUser);
+      expect(setCache).toHaveBeenCalledWith(
+        `news-${existingUser._id}`,
+        articles,
+        3600
+      );
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 404 if the endpoint is not found", async () => {
-      const response = await request(app)
-        .get("/news/nonexistent")
-        .set("Authorization", `${auth_token}`)
-        .expect(404);
-    
-      expect(response.body.message).toBe(undefined);
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockImplementation(() => ({
+        select: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue(null),
+      }));
+
+      await getNewsArticles(req, res, next);
+
+      expect(fetchNews).not.toHaveBeenCalled();
+      expect(setCache).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("getReadArticles", () => {
-    it("should return 200 and an array of read articles", async () => {
-      user.readArticles = [
-        {
-          articleUrl: "https://example.com/article1",
-          readAt: new Date(),
-        },
-        {
-          articleUrl: "https://example.com/article2",
-          readAt: new Date(),
-        },
-      ];
-      await user.save();
-
-      const response = await request(app)
-        .get("/news/read")
-        .set("Authorization", `${auth_token}`)
-        .expect(200);
-
-      expect(response.body.readArticles).toBeDefined();
-      expect(Array.isArray(response.body.readArticles)).toBe(true);
-      expect(response.body.readArticles.length).toBe(2);
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+      } as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should return read articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        readArticles: [
+          {
+            articleUrl: "https://www.google.com",
+            readAt: new Date().toISOString(),
+          },
+        ],
+      };
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await getReadArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        readArticles: existingUser.readArticles,
+      });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const response = await request(app)
-        .get("/news/read")
-        .set("Authorization", `${auth_token}`)
-        .expect(400);
+    it("should return read articles as [] if no read articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        readArticles: [
+        ],
+      };
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await getReadArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        readArticles: existingUser.readArticles,
+      });
+      expect(next).not.toHaveBeenCalled();
+    });
 
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await getReadArticles(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("setReadArticles", () => {
-    it("should return 200 and update the user's read articles", async () => {
-      const article = {
-        articleUrl: "https://example.com/article1",
-        title: "Article 1",
-        description: "This is article 1",
-        imageUrl: "https://example.com/article1.jpg",
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+        body: {
+          readArticle: {
+            articleUrl: "https://www.google.com",
+          },
+        },
+      } as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should set read articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        readArticles: [
+          {
+            articleUrl: "https://www.google.com",
+            readAt: new Date().toISOString(),
+          },
+        ],
+        save: jest.fn(),
       };
-
-      const response = await request(app)
-        .post("/news/read")
-        .set("Authorization", `${auth_token}`)
-        .send({ readArticle: article })
-        .expect(200);
-
-      expect(response.body.message).toBe("Read articles updated successfully");
-      const updatedUser = await UserModel.findById(user._id);
-      expect(updatedUser?.readArticles.length).toBe(1);
-      expect(updatedUser?.readArticles[0].articleUrl).toBe(encodeURIComponent(article.articleUrl));
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await setReadArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Read articles updated successfully",
+      });
+      expect(existingUser.save).toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const article = {
-        articleUrl: "https://example.com/article1",
-        title: "Article 1",
-        description: "This is article 1",
-        imageUrl: "https://example.com/article1.jpg",
-      };
-
-      const response = await request(app)
-        .post("/news/read")
-        .set("Authorization", `${auth_token}`)
-        .send({ readArticle: article })
-        .expect(400);
-
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await setReadArticles(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("getFavoriteArticles", () => {
-    it("should return 200 and an array of favorite articles", async () => {
-      user.favoriteArticles = [
-        {
-          articleUrl: "https://example.com/article1",
-          favoritedAt: new Date(),
-        },
-        {
-          articleUrl: "https://example.com/article2",
-          favoritedAt: new Date(),
-        },
-      ];
-      await user.save();
-
-      const response = await request(app)
-        .get("/news/favorites")
-        .set("Authorization", `${auth_token}`)
-        .expect(200);
-
-      expect(response.body.favoriteArticles).toBeDefined();
-      expect(Array.isArray(response.body.favoriteArticles)).toBe(true);
-      expect(response.body.favoriteArticles.length).toBe(2);
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+      } as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should return favorite articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        favoriteArticles: [
+          {
+            articleUrl: "https://www.google.com",
+          },
+        ],
+      };
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await getFavoriteArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        favoriteArticles: existingUser.favoriteArticles,
+      });
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const response = await request(app)
-        .get("/news/favorites")
-        .set("Authorization", `${auth_token}`)
-        .expect(400);
+    it("should return favorite articles as [] if no favorite articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        favoriteArticles: [
+        ],
+      };
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await getFavoriteArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        favoriteArticles: existingUser.favoriteArticles,
+      });
+      expect(next).not.toHaveBeenCalled();
+    });
 
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await getFavoriteArticles(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("setFavoriteArticles", () => {
-    it("should return 200 and update the user's favorite articles", async () => {
-      const article = {
-        articleUrl: "https://example.com/article1",
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+        body: {
+          favoriteArticle: {
+            articleUrl: "https://www.google.com",
+          },
+        },
+      } as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should set favorite articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        favoriteArticles: [
+          {
+            articleUrl: "https://www.google.com",
+            favoritedAt: new Date().toISOString(),
+          },
+        ],
+        save: jest.fn(),
       };
-
-      const response = await request(app)
-        .post("/news/favorite")
-        .set("Authorization", `${auth_token}`)
-        .send({ favoriteArticle: article })
-        .expect(200);
-
-      expect(response.body.message).toBe("Favorite articles updated successfully");
-      const updatedUser = await UserModel.findById(user._id);
-      expect(updatedUser?.favoriteArticles.length).toBe(1);
-      expect(updatedUser?.favoriteArticles[0].articleUrl).toBe(encodeURIComponent(article.articleUrl));
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await setFavoriteArticles(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Favorite articles updated successfully",
+      });
+      expect(existingUser.save).toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const article = {
-        articleUrl: "https://example.com/article1",
-      };
-
-      const response = await request(app)
-        .post("/news/favorite")
-        .set("Authorization", `${auth_token}`)
-        .send({ favoriteArticle: article })
-        .expect(400);
-
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await setFavoriteArticles(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("removeFavoriteArticle", () => {
-    it("should return 200 and remove the specified favorite article", async () => {
-      user.favoriteArticles = [
-        {
-          articleUrl: "https://example.com/article1",
-          favoritedAt: new Date(),
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+        body: {
+          favoriteArticle: {
+            articleUrl: "https://www.google.com",
+          },
         },
-        {
-          articleUrl: "https://example.com/article2",
-          favoritedAt: new Date(),
-        },
-      ];
-      await user.save();
-
-      const articleToRemove = {
-        articleUrl: "https://example.com/article1",
+      } as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should remove favorite articles", async () => {
+      const existingUser = {
+        _id: "testUserId",
+        favoriteArticles: [
+          {
+            articleUrl: "https://www.google.com",
+            favoritedAt: new Date().toISOString(),
+          },
+        ],
+        save: jest.fn(),
       };
-
-      const response = await request(app)
-        .delete("/news/favorite")
-        .set("Authorization", `${auth_token}`)
-        .send({ favoriteArticle: articleToRemove })
-        .expect(200);
-
-      expect(response.body.message).toBe("Favorite articles updated successfully");
-      const updatedUser = await UserModel.findById(user._id);
-      expect(updatedUser?.favoriteArticles.length).toBe(1);
-      expect(updatedUser?.favoriteArticles[0].articleUrl).toBe("https://example.com/article2");
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+      await removeFavoriteArticle(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Favorite articles updated successfully",
+      });
+      expect(existingUser.save).toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const articleToRemove = {
-        articleUrl: "https://example.com/article1",
-      };
-
-      const response = await request(app)
-        .delete("/news/favorite")
-        .set("Authorization", `${auth_token}`)
-        .send({ favoriteArticle: articleToRemove })
-        .expect(400);
-
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await removeFavoriteArticle(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 
   describe("searchNewsArticles", () => {
-    it("should return 200 and an array of articles matching the keyword", async () => {
-      const response = await request(app)
-        .get("/news/search/business")
-        .set("Authorization", `${auth_token}`)
-        .expect(200);
+    beforeEach(() => {
+      jest.resetAllMocks();
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response<any, Record<string, any>>;
+      next = jest.fn();
+      req = {
+        userId: "testUserId",
+        params: {
+          keyword: "testKeyword",
+        },
+      } as any  as CustomRequest;
+    });
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+    it("should return search results", async () => {
+      const existingUser = {
+        _id: "testUserId",
+      };
 
-      expect(response.body.articles).toBeDefined();
-      expect(Array.isArray(response.body.articles)).toBe(true);
+      (UserModel.findById as jest.Mock).mockResolvedValue(existingUser);
+
+      const articles = [{ title: "Article 1" }, { title: "Article 2" }];
+      // @ts-ignore
+      fetchNews.mockResolvedValue(articles);
+
+      await searchNewsArticles(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        articles: articles,
+        totalArticles: articles.length,
+      });
+      expect(fetchNews).toHaveBeenCalledWith(existingUser, req.params.keyword);
+      expect(next).not.toHaveBeenCalled();
     });
 
-    it("should return 400 if user does not exist", async () => {
-      await UserModel.deleteMany({});
-      const response = await request(app)
-        .get("/news/search/business")
-        .set("Authorization", `${auth_token}`)
-        .expect(400);
-
-      expect(response.body.message).toBe("User does not exist");
+    it("should handle error if user does not exist", async () => {
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      await searchNewsArticles(req, res, next);
+      expect(next).toHaveBeenCalledWith(expect.any(BadRequestError));
     });
   });
 });

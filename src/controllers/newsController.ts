@@ -9,10 +9,14 @@ import { BadRequestError } from "../utils/error-types";
 export const getNewsArticles = async (req: CustomRequest, res: Response, next:NextFunction) => {
   try {
     const { userId } = req;
-    let existingUser = await UserModel.findById(userId).select('preferences');
+    const userQuery = UserModel.findById(userId).select('preferences');
+
+    const existingUser = await userQuery.exec();
+
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
     }
+    // @ts-ignore
     const cacheKey = `news-${existingUser._id}`
     const cachedNews = getCache(cacheKey);
 
@@ -38,12 +42,12 @@ export const getReadArticles = async (req: CustomRequest, res: Response, next:Ne
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
     }
-    const readArticles = existingUser.readArticles.map((article) => {
+    const readArticles = existingUser.readArticles.length > 0 ? existingUser.readArticles.map((article) => {
       return {
         articleUrl: decodeURIComponent(article.articleUrl),
         readAt: article.readAt,
       };
-    });
+    }) : [];
     return res.status(200).json({ readArticles });
   } catch (error) {
     next(error);
@@ -142,15 +146,7 @@ export const searchNewsArticles = async (req: CustomRequest, res: Response, next
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
     }
-
-    const apiKey = process.env.NEWS_API_SECRET;
-    const response = await axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
-      params: {
-        apiKey,
-        q: keyword,
-      },
-    });
-    const articles = response.data.articles;
+    const articles = await fetchNews(existingUser, keyword);
     return res
       .status(200)
       .json({ articles: articles, totalArticles: articles.length });

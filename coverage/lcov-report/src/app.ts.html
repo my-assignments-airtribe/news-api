@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.42% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/35</span>
+                <span class='fraction'>25/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.17% </span>
+                <span class="strong">73.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/34</span>
+                <span class='fraction'>25/34</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -167,19 +167,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,7 +193,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -233,17 +233,17 @@ app.use(errorHandler);
 // Start the HTTP server and store the server instance
 server = http.createServer(app);
 &nbsp;
-server.listen(PORT, (error?: any) =&gt; {
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {
+server.listen(PORT, <span class="fstat-no" title="function not covered" >(e</span>rror?: any) =&gt; {
+<span class="cstat-no" title="statement not covered" >  if (error) {</span>
 <span class="cstat-no" title="statement not covered" >    console.error("Error starting the server:", error);</span>
   } else {
-    console.log(`Server running on port ${PORT}`);
+<span class="cstat-no" title="statement not covered" >    console.log(`Server running on port ${PORT}`);</span>
     // MongoDB connection handling
-    mongoConfig.once("open", async () =&gt; {
-      console.log("Connected to MongoDB");
+<span class="cstat-no" title="statement not covered" >    mongoConfig.once("open", <span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
+<span class="cstat-no" title="statement not covered" >      console.log("Connected to MongoDB");</span>
 &nbsp;
       // Start background updates after MongoDB connection and server start
-      startBackgroundUpdates();
+<span class="cstat-no" title="statement not covered" >      startBackgroundUpdates();</span>
     }).on("error", <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
 <span class="cstat-no" title="statement not covered" >      console.error("Error connecting to MongoDB:", err);</span>
     });
@@ -259,8 +259,8 @@ interface CustomExpress extends express.Express {
 const customApp = app as CustomExpress;
 &nbsp;
 // Define the app.close method to stop the server
-customApp.close = () =&gt; {
-  server.close();
+customApp.close = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+<span class="cstat-no" title="statement not covered" >  server.close();</span>
 };
 &nbsp;
 export default customApp;
@@ -271,7 +271,7 @@ export default customApp;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-17T19:29:58.935Z
+                at 2023-10-18T06:34:11.795Z
             </div>
         <script src="../prettify.js"></script>
         <script>

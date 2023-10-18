@@ -12,7 +12,9 @@ export const setUserPreferences = async (req: CustomRequest, res: Response, next
     const { categories, sources }: { categories?: string[]; sources?: string[] } = body;
 
     // Check if the user exists
-    let existingUser = await UserModel.findById(userId);
+    const userQuery = UserModel.findById(userId);
+
+    const existingUser = await userQuery.exec();
 
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
@@ -50,7 +52,9 @@ export const getUserPreferences = async (req: CustomRequest, res: Response, next
   try {
     const userId = req.userId;
     // Check if the user exists
-    const existingUser = await UserModel.findById(userId);
+    const userQuery = UserModel.findById(userId);
+
+    const existingUser = await userQuery.exec();
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
     }
@@ -69,7 +73,9 @@ export const removeUserPreferences = async (req: CustomRequest, res: Response, n
     const { removeCategories, removeSources }: { removeCategories?: string[]; removeSources?: string[] } = body;
 
     // Check if the user exists
-    let existingUser = await UserModel.findById(userId);
+    const userQuery = UserModel.findById(userId);
+
+    const existingUser = await userQuery.exec();
 
     if (!existingUser) {
       throw new BadRequestError("User does not exist");
