@@ -3,6 +3,7 @@ import mongoose, { ConnectOptions } from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../../app";
 import UserModel from "../../models/User";
+import User from "../../models/User";
 
 let mongoServer: MongoMemoryServer;
 let accessToken: string;
@@ -22,7 +23,15 @@ beforeAll(async () => {
     username: "testusernews",
     email: "testusernews@example.com",
     password: "password123",
+    token: "token",
   });
+  // Verify the new user
+
+  await UserModel.findOneAndUpdate(
+    { username: "testusernews" },
+    { emailVerified: true }
+  )
+
   // Login the new user
   const response = await request(app).post("/user/login").send({
     username: "testusernews",

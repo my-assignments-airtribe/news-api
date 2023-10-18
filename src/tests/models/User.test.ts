@@ -28,6 +28,7 @@ describe('User model', () => {
       username: 'testuser',
       email: 'testuser@example.com',
       password: 'password',
+      token: 'token',
       preferences: {
         categories: ['sports', 'politics'],
         sources: ['bbc', 'cnn']

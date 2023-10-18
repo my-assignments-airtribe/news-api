@@ -36,6 +36,11 @@ describe("User Routes", () => {
     expect(response.status).toBe(201);
 
     const user = await UserModel.findOne({ username: "testuser" });
+    // verfiy the user
+    await UserModel.findOneAndUpdate(
+      { username: "testuser" },
+      { emailVerified: true }
+    );
     expect(user).toBeTruthy();
     expect(user?.username).toBe("testuser");
     expect(user?.email).toBe("testuser@example.com");
@@ -55,6 +60,8 @@ describe("User Routes", () => {
   });
 
   it("should login an existing user", async () => {
+    
+
     const loginResponse = await request(app).post("/user/login").send({
       username: "testuser",
       password: "password123",
