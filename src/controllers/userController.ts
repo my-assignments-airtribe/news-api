@@ -31,11 +31,12 @@ export const registerUser = async (
     if (existingUser) {
       throw new UsernameTakenError("Username is already taken");
     }
+    const url = process.env.NODE_ENV === "prod" ? process.env.CLIENT_URL : process.env.LOCAL_URL;
 
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
     const token = generateEmailToken(32);
-    const verification = `Click Link to verify Email: ${process.env.CLIENT_URL}/user/verify-email/${token}`;
+    const verification = `Click Link to verify Email: ${url}/user/verify-email/${token}`;
     // Create a new user
     const newUser = new UserModel({
       username,

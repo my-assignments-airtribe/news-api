@@ -124,3 +124,23 @@
 2023-10-18T16:58:33.358Z error: Username already taken
 2023-10-18T16:58:33.359Z error: Bad request
 2023-10-18T16:58:33.371Z error: Internal server error
+2023-10-18T17:01:17.088Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T17:01:17.521Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T17:01:17.565Z error: User does not exist
+2023-10-18T17:01:18.513Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T17:01:18.569Z error: User does not exist
+2023-10-18T17:01:18.584Z error: Unauthorized
+2023-10-18T17:01:18.603Z error: Unauthorized
+2023-10-18T17:01:18.613Z error: Unauthorized
+2023-10-18T17:01:18.622Z error: Unauthorized
+2023-10-18T17:01:18.632Z error: Unauthorized
+2023-10-18T17:01:18.640Z error: Unauthorized
+2023-10-18T17:01:18.647Z error: Unauthorized
+2023-10-18T17:01:18.656Z error: Unauthorized
+2023-10-18T17:01:18.663Z error: Unauthorized
+2023-10-18T17:01:21.675Z error: Invalid input
+2023-10-18T17:01:21.678Z error: Invalid credentials
+2023-10-18T17:01:21.680Z error: Unauthorized access
+2023-10-18T17:01:21.682Z error: Username already taken
+2023-10-18T17:01:21.689Z error: Bad request
+2023-10-18T17:01:21.690Z error: Internal server error
