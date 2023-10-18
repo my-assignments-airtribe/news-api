@@ -39,6 +39,11 @@ describe.only("User Routes", () => {
     expect(user).toBeTruthy();
     expect(user?.username).toBe("testuser");
     expect(user?.email).toBe("testuser@example.com");
+    // verfiy the user
+    await UserModel.findOneAndUpdate(
+      { username: "testuser" },
+      { emailVerified: true }
+    );
   });
 
   it("should return a 400 error if the username is already taken", async () => {
@@ -55,11 +60,6 @@ describe.only("User Routes", () => {
   });
 
   it("should login an existing user", async () => {
-    // verfiy the user
-    await UserModel.findOneAndUpdate(
-      { username: "testuser" },
-      { emailVerified: true }
-    );
 
     const loginResponse = await request(app).post("/user/login").send({
       username: "testuser",

@@ -1,7 +1,9 @@
 import { Response, Request, NextFunction  } from "express";
 import { AuthenticationError, AuthorizationError, BadRequestError, UsernameTakenError, ValidationError } from "../utils/error-types";
+import logger from "../logger";
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+  logger.error(err.message);
   if(err instanceof ValidationError) {
     return res.status(400).json({ message: err.message });
   }

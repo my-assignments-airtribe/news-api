@@ -9,6 +9,8 @@ import { startBackgroundUpdates } from "./services/backgroundUpdatesService";
 import helmet from "helmet";
 import { limiter } from "./services/rateLimiter";
 import { errorHandler } from "./handlers/error-handler";
+import logger from "./logger";
+import express, { Request, Response, NextFunction } from 'express';
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ let server: http.Server; // Define a variable to hold the server instance
 app.use(bodyParser.json());
 app.use(helmet());
 
+
 // Define routes
 app.get("/", limiter, (req, res) => {
   res.status(200).json({
@@ -29,6 +32,17 @@ app.get("/", limiter, (req, res) => {
 
 app.use("/user", limiter, userRoutes);
 app.use("/news", limiter, newsRoutes);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  logger.info(`Request: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.on('finish', () => {
+    logger.info(`Response: ${res.statusCode} ${res.statusMessage}`);
+  });
+  next();
+});
 app.use(errorHandler);
 
 // Start the HTTP server and store the server instance
