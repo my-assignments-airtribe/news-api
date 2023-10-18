@@ -3,10 +3,13 @@ import { registerUser, loginUser } from '../../controllers/userController';
 import { ValidationError, UsernameTakenError, BadRequestError } from '../../utils/error-types';
 import UserModel from "../../models/User";
 import bcrypt from "bcrypt";
+import { sendEmail } from "../../config/email";
 
 jest.mock("bcrypt");
 
 jest.mock("../../models/User");
+
+jest.mock("../../config/email");
 
 describe('User Controller', () => {
   let res: Response<any, Record<string, any>>;
@@ -42,6 +45,12 @@ describe('User Controller', () => {
       });
       // @ts-ignore
       UserModel.mockImplementation(mockUser);
+
+      // mock the sendEmail method
+      (sendEmail as jest.Mock).mockResolvedValue(true);
+      
+
+      // @ts-ignore
       await registerUser(req, res, next);
     
       expect(res.status).toHaveBeenCalledWith(201);

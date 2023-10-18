@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697648482073" clover="3.2.0">
-  <project timestamp="1697648482073" name="All files">
-    <metrics statements="507" coveredstatements="479" conditionals="101" coveredconditionals="92" methods="78" coveredmethods="68" elements="686" coveredelements="639" complexity="0" loc="507" ncloc="507" packages="10" files="22" classes="22"/>
+<coverage generated="1697648782624" clover="3.2.0">
+  <project timestamp="1697648782624" name="All files">
+    <metrics statements="507" coveredstatements="482" conditionals="101" coveredconditionals="92" methods="78" coveredmethods="70" elements="686" coveredelements="644" complexity="0" loc="507" ncloc="507" packages="10" files="22" classes="22"/>
     <package name="src">
       <metrics statements="47" coveredstatements="40" conditionals="4" coveredconditionals="2" methods="10" coveredmethods="6"/>
       <file name="app.ts" path="/Users/ashrith/Development/airtribe/news-api/src/app.ts">
@@ -88,16 +88,16 @@
         <line num="10" count="4" type="stmt"/>
         <line num="11" count="4" type="stmt"/>
         <line num="17" count="4" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
-        <line num="19" count="4" type="stmt"/>
-        <line num="26" count="4" type="stmt"/>
-        <line num="29" count="4" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
         <line num="33" count="4" type="stmt"/>
-        <line num="34" count="4" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="191" coveredstatements="173" conditionals="32" coveredconditionals="27" methods="34" coveredmethods="30"/>
+      <metrics statements="191" coveredstatements="176" conditionals="32" coveredconditionals="27" methods="34" coveredmethods="32"/>
       <file name="newsController.ts" path="/Users/ashrith/Development/airtribe/news-api/src/controllers/newsController.ts">
         <metrics statements="85" coveredstatements="85" conditionals="12" coveredconditionals="12" methods="17" coveredmethods="17"/>
         <line num="4" count="4" type="stmt"/>
@@ -187,7 +187,7 @@
         <line num="154" count="1" type="stmt"/>
       </file>
       <file name="userController.ts" path="/Users/ashrith/Development/airtribe/news-api/src/controllers/userController.ts">
-        <metrics statements="56" coveredstatements="38" conditionals="11" coveredconditionals="6" methods="9" coveredmethods="5"/>
+        <metrics statements="56" coveredstatements="41" conditionals="11" coveredconditionals="6" methods="9" coveredmethods="7"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
@@ -210,11 +210,11 @@
         <line num="39" count="4" type="stmt"/>
         <line num="41" count="4" type="stmt"/>
         <line num="54" count="4" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="60" count="4" type="stmt"/>
-        <line num="65" count="6" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="65" count="5" type="stmt"/>
         <line num="69" count="4" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
