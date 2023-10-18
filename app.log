@@ -24,3 +24,103 @@
 2023-10-18T16:54:32.515Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
 2023-10-18T16:54:33.094Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
 2023-10-18T16:54:33.128Z error: User does not exist
+2023-10-18T16:57:15.354Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:15.870Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:15.886Z error: User does not exist
+2023-10-18T16:57:16.731Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:16.766Z error: User does not exist
+2023-10-18T16:57:16.786Z error: Unauthorized
+2023-10-18T16:57:16.806Z error: Unauthorized
+2023-10-18T16:57:16.813Z error: Unauthorized
+2023-10-18T16:57:16.823Z error: Unauthorized
+2023-10-18T16:57:16.831Z error: Unauthorized
+2023-10-18T16:57:16.838Z error: Unauthorized
+2023-10-18T16:57:16.848Z error: Unauthorized
+2023-10-18T16:57:16.854Z error: Unauthorized
+2023-10-18T16:57:16.864Z error: Unauthorized
+2023-10-18T16:57:19.756Z error: Invalid input
+2023-10-18T16:57:19.765Z error: Invalid credentials
+2023-10-18T16:57:19.766Z error: Unauthorized access
+2023-10-18T16:57:19.767Z error: Username already taken
+2023-10-18T16:57:19.769Z error: Bad request
+2023-10-18T16:57:19.774Z error: Internal server error
+2023-10-18T16:57:37.112Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:37.608Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:37.642Z error: User does not exist
+2023-10-18T16:57:38.721Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:38.742Z error: User does not exist
+2023-10-18T16:57:38.753Z error: Unauthorized
+2023-10-18T16:57:38.771Z error: Unauthorized
+2023-10-18T16:57:38.778Z error: Unauthorized
+2023-10-18T16:57:38.788Z error: Unauthorized
+2023-10-18T16:57:38.795Z error: Unauthorized
+2023-10-18T16:57:38.802Z error: Unauthorized
+2023-10-18T16:57:38.811Z error: Unauthorized
+2023-10-18T16:57:38.817Z error: Unauthorized
+2023-10-18T16:57:38.825Z error: Unauthorized
+2023-10-18T16:57:41.158Z error: Invalid input
+2023-10-18T16:57:41.161Z error: Invalid credentials
+2023-10-18T16:57:41.163Z error: Unauthorized access
+2023-10-18T16:57:41.167Z error: Username already taken
+2023-10-18T16:57:41.169Z error: Bad request
+2023-10-18T16:57:41.170Z error: Internal server error
+2023-10-18T16:57:52.470Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:52.811Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:52.837Z error: User does not exist
+2023-10-18T16:57:53.646Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:57:53.681Z error: User does not exist
+2023-10-18T16:57:53.688Z error: Unauthorized
+2023-10-18T16:57:53.704Z error: Unauthorized
+2023-10-18T16:57:53.712Z error: Unauthorized
+2023-10-18T16:57:53.721Z error: Unauthorized
+2023-10-18T16:57:53.731Z error: Unauthorized
+2023-10-18T16:57:53.738Z error: Unauthorized
+2023-10-18T16:57:53.748Z error: Unauthorized
+2023-10-18T16:57:53.757Z error: Unauthorized
+2023-10-18T16:57:53.766Z error: Unauthorized
+2023-10-18T16:57:56.147Z error: Invalid input
+2023-10-18T16:57:56.150Z error: Invalid credentials
+2023-10-18T16:57:56.154Z error: Unauthorized access
+2023-10-18T16:57:56.156Z error: Username already taken
+2023-10-18T16:57:56.157Z error: Bad request
+2023-10-18T16:57:56.159Z error: Internal server error
+2023-10-18T16:58:20.986Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:21.326Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:21.347Z error: User does not exist
+2023-10-18T16:58:22.325Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:22.361Z error: User does not exist
+2023-10-18T16:58:22.368Z error: Unauthorized
+2023-10-18T16:58:22.383Z error: Unauthorized
+2023-10-18T16:58:22.390Z error: Unauthorized
+2023-10-18T16:58:22.400Z error: Unauthorized
+2023-10-18T16:58:22.411Z error: Unauthorized
+2023-10-18T16:58:22.417Z error: Unauthorized
+2023-10-18T16:58:22.427Z error: Unauthorized
+2023-10-18T16:58:22.433Z error: Unauthorized
+2023-10-18T16:58:22.442Z error: Unauthorized
+2023-10-18T16:58:25.184Z error: Invalid input
+2023-10-18T16:58:25.188Z error: Invalid credentials
+2023-10-18T16:58:25.193Z error: Unauthorized access
+2023-10-18T16:58:25.194Z error: Username already taken
+2023-10-18T16:58:25.196Z error: Bad request
+2023-10-18T16:58:25.198Z error: Internal server error
+2023-10-18T16:58:28.396Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:28.892Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:28.919Z error: User does not exist
+2023-10-18T16:58:30.029Z error: Error sending verification email: Error: Error sending email: Error: Forbidden
+2023-10-18T16:58:30.076Z error: User does not exist
+2023-10-18T16:58:30.086Z error: Unauthorized
+2023-10-18T16:58:30.105Z error: Unauthorized
+2023-10-18T16:58:30.114Z error: Unauthorized
+2023-10-18T16:58:30.122Z error: Unauthorized
+2023-10-18T16:58:30.132Z error: Unauthorized
+2023-10-18T16:58:30.137Z error: Unauthorized
+2023-10-18T16:58:30.147Z error: Unauthorized
+2023-10-18T16:58:30.155Z error: Unauthorized
+2023-10-18T16:58:30.162Z error: Unauthorized
+2023-10-18T16:58:33.351Z error: Invalid input
+2023-10-18T16:58:33.355Z error: Invalid credentials
+2023-10-18T16:58:33.356Z error: Unauthorized access
+2023-10-18T16:58:33.358Z error: Username already taken
+2023-10-18T16:58:33.359Z error: Bad request
+2023-10-18T16:58:33.371Z error: Internal server error

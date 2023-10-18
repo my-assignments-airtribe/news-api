@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697648073566" clover="3.2.0">
-  <project timestamp="1697648073566" name="All files">
-    <metrics statements="505" coveredstatements="478" conditionals="99" coveredconditionals="91" methods="77" coveredmethods="68" elements="681" coveredelements="637" complexity="0" loc="505" ncloc="505" packages="10" files="22" classes="22"/>
+<coverage generated="1697648313783" clover="3.2.0">
+  <project timestamp="1697648313783" name="All files">
+    <metrics statements="506" coveredstatements="478" conditionals="99" coveredconditionals="91" methods="78" coveredmethods="68" elements="683" coveredelements="637" complexity="0" loc="506" ncloc="506" packages="10" files="22" classes="22"/>
     <package name="src">
       <metrics statements="47" coveredstatements="40" conditionals="4" coveredconditionals="2" methods="10" coveredmethods="6"/>
       <file name="app.ts" path="/Users/ashrith/Development/airtribe/news-api/src/app.ts">
@@ -97,7 +97,7 @@
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="189" coveredstatements="172" conditionals="30" coveredconditionals="26" methods="33" coveredmethods="30"/>
+      <metrics statements="190" coveredstatements="172" conditionals="30" coveredconditionals="26" methods="34" coveredmethods="30"/>
       <file name="newsController.ts" path="/Users/ashrith/Development/airtribe/news-api/src/controllers/newsController.ts">
         <metrics statements="85" coveredstatements="85" conditionals="12" coveredconditionals="12" methods="17" coveredmethods="17"/>
         <line num="4" count="4" type="stmt"/>
@@ -187,7 +187,7 @@
         <line num="154" count="1" type="stmt"/>
       </file>
       <file name="userController.ts" path="/Users/ashrith/Development/airtribe/news-api/src/controllers/userController.ts">
-        <metrics statements="54" coveredstatements="37" conditionals="9" coveredconditionals="5" methods="8" coveredmethods="5"/>
+        <metrics statements="55" coveredstatements="37" conditionals="9" coveredconditionals="5" methods="9" coveredmethods="5"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
@@ -209,9 +209,10 @@
         <line num="38" count="4" type="stmt"/>
         <line num="40" count="4" type="stmt"/>
         <line num="53" count="4" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
-        <line num="58" count="4" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="59" count="4" type="stmt"/>
         <line num="64" count="6" type="stmt"/>
         <line num="68" count="4" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
