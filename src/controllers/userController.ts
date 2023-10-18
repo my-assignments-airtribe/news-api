@@ -45,21 +45,23 @@ export const registerUser = async (
       email,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      emailVerified: false,
       preferences: {
         categories: [],
         sources: [],
       },
     });
+    await newUser.save();
+
     // Send a verification email to the user
     await sendEmail(email, "Verify your email", verification)
       .then(async () => {
-        await newUser.save();
         res.status(201).json({ message: "Verification Email sent" });
       })
       .catch((err) => {
         throw new Error(`Error sending verification email: ${err}`);
       });
-    // res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     // console.error("Caught an error:", error);
     next(error);
