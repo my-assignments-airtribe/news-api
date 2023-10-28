@@ -8,7 +8,8 @@ export const startBackgroundUpdates = () => {
   cron.schedule('*/5 * * * *', async () => {
     try {
       const users = await User.find().select('preferences');
-      if (!users) {
+      if (!users || users.length === 0) {
+        console.log('No users found.');
         return;
       }
       for (const user of users) {
