@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { IUser } from "../models/User";
 
-export const fetchNews = async (user: IUser) => {
+export const fetchNews = async (user: IUser, keyword?: string) => {
   const apiKey = process.env.NEWS_API_SECRET;
   const categories = user.preferences.categories;
   const sources = user.preferences.sources;
@@ -15,7 +15,7 @@ export const fetchNews = async (user: IUser) => {
 
   const requests: Promise<AxiosResponse<any>>[] = [];
 
-  if (categories.length > 0) {
+  if (categories && categories.length > 0) {
     for (const category of categories) {
       requests.push(
         axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
@@ -30,12 +30,26 @@ export const fetchNews = async (user: IUser) => {
     }
   }
 
-  if (sources.length > 0) {
+  if (sources && sources.length > 0) {
     requests.push(
       axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
         params: {
           apiKey,
           sources: sources.join(","),
+          page,
+          pageSize,
+        }
+      })
+    );
+  }
+
+  // Add the new axios.get call with the 'keyword' parameter
+  if (keyword) {
+    requests.push(
+      axios.get(`${process.env.NEWS_API_URL}/top-headlines`, {
+        params: {
+          apiKey,
+          q: keyword,
           page,
           pageSize,
         },

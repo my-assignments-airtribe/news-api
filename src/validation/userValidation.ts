@@ -11,3 +11,13 @@ export const loginSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const preferencesSchema = Joi.object({
+  categories: Joi.array().items(Joi.string()),
+  sources: Joi.array().items(Joi.string())
+});
+
+export const removePreferencesSchema = Joi.object({
+  removeCategories: Joi.array().items(Joi.string()),
+  removeSources: Joi.array().items(Joi.string())
+});
